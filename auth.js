@@ -61,7 +61,7 @@ if(signupForm){
         password
       );
 
-      alert("Account created successfully 🚀");
+      
 
       window.location.href = "dashboard.html";
 
@@ -103,7 +103,7 @@ if(loginForm){
         password
       );
 
-      alert("Login successful 🔥");
+      
 
       window.location.href = "dashboard.html";
 
