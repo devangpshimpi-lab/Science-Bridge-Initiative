@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScienceBridge Pro • Ivy Research Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --slate-100: #f8f9fb;
+            --mercedes-silver: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --accent-blue: #0071e3;
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --shadow-premium: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f4f9 100%);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 360px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            border-right: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header { padding: 45px 35px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .sidebar-header h2 { 
+            font-weight: 800; letter-spacing: -1.2px; font-size: 24px; 
+            background: linear-gradient(to bottom right, #000, #555);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .curriculum-list { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+        .curriculum-list::-webkit-scrollbar { display: none; }
+        
+        .curriculum-item {
+            padding: 16px 20px; border-radius: 18px; margin-bottom: 10px;
+            cursor: pointer; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex; align-items: center; gap: 18px; border: 1px solid transparent;
+        }
+
+        .curriculum-item:hover { background: rgba(0,0,0,0.04); transform: translateX(5px); }
+        .curriculum-item.active {
+            background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.05); transform: scale(1.02);
+        }
+
+        .item-icon {
+            width: 36px; height: 36px; border-radius: 12px;
+            background: #f1f4f9; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700;
+        }
+        .active .item-icon { background: var(--text-main); color: #fff; }
+
+        /* --- MAIN CONTENT --- */
+        .main-stage { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+        .top-nav {
+            padding: 25px 60px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .btn-premium {
+            padding: 12px 28px; border-radius: 50px; border: 1px solid var(--text-main);
+            background: transparent; font-weight: 600; cursor: pointer; transition: 0.4s;
+            text-decoration: none; color: var(--text-main); font-size: 13px;
+            display: inline-block;
+        }
+        .btn-premium:hover { background: var(--text-main); color: #fff; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+        .content-scroll { flex: 1; padding: 60px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+
+        .stage-box {
+            width: 100%; max-width: 1100px; background: #fff;
+            border-radius: 40px; box-shadow: var(--shadow-premium);
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-player-area { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .info-panel { padding: 50px; background: #fff; }
+        .step-tag { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; font-weight: 800; color: var(--accent-blue); margin-bottom: 15px; display: block; }
+        .step-title { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 15px; color: #000; }
+        .step-desc { color: var(--text-secondary); line-height: 1.8; font-size: 19px; max-width: 800px; }
+
+        /* --- QUIZ UI --- */
+        .quiz-view { display: none; padding: 60px; width: 100%; max-width: 900px; background: #fff; border-radius: 40px; box-shadow: var(--shadow-premium); animation: slideUp 0.7s ease; }
+        .q-row { margin-bottom: 40px; }
+        .option-btn {
+            display: block; padding: 22px 28px; background: #f1f4f9; border-radius: 20px;
+            margin-top: 15px; cursor: pointer; border: 2.5px solid transparent; 
+            transition: 0.3s; font-size: 17px; font-weight: 500; color: #1d1d1f;
+        }
+        .option-btn:hover { background: #e2e8f0; transform: translateY(-3px); }
+        .option-btn.selected { background: #fff; border-color: var(--accent-blue); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.1); color: var(--accent-blue); }
+        .correct { border-color: #34c759 !important; background: #f2fff5 !important; color: #1a7f37 !important; }
+        .wrong { border-color: #ff3b30 !important; background: #fff5f5 !important; color: #c9342b !important; }
+
+        /* --- OVERLAYS --- */
+        #grad-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        #toast {
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%) translateY(150px);
+            background: #1d1d1f; color: #fff; padding: 18px 45px; border-radius: 50px;
+            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); z-index: 3000; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        #toast.active { transform: translateX(-50%) translateY(0); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header"><h2>ScienceBridge Pro</h2></div>
+        <div class="curriculum-list" id="nav-list"></div>
+    </aside>
+
+    <main class="main-stage">
+        <nav class="top-nav">
+            <span id="module-label" style="text-transform: uppercase; letter-spacing: 2px; font-size: 11px; font-weight: 800; color: var(--text-secondary);">Research Environment V2.0</span>
+            <a href="dashboard.html" class="btn-premium">System Dashboard</a>
+        </nav>
+
+        <div class="content-scroll">
+            <div class="stage-box" id="learning-stage">
+                <div class="video-player-area">
+                    <iframe id="player" src="" allowfullscreen></iframe>
+                </div>
+                <div class="info-panel">
+                    <span class="step-tag">Active Research</span>
+                    <h1 class="step-title" id="step-title">Initializing...</h1>
+                    <p class="step-desc" id="step-desc">Please select a module to begin.</p>
+                    <button class="btn-premium" style="margin-top:35px; background:#000; color:#fff;" onclick="next()">Continue Pathway →</button>
+                </div>
+            </div>
+
+            <div class="quiz-view" id="quiz-stage">
+                <h1 style="font-size: 38px; letter-spacing: -1.5px; margin-bottom: 10px;">Verification Check</h1>
+                <p style="color:var(--text-secondary); margin-bottom: 40px;">Select the correct theoretical answers to proceed.</p>
+                <div id="quiz-stack"></div>
+                <button class="btn-premium" id="validate-btn" style="background:#000; color:#fff; width:100%; padding:20px; margin-top: 30px;" onclick="evaluateQuiz()">Validate Response</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="grad-overlay">
+        <div id="celeb-icon" style="font-size: 120px; margin-bottom: 20px;">✨</div>
+        <h1 id="celeb-title" style="font-size: 60px; font-weight: 800; margin: 10px 0; letter-spacing: -2px;">Research Validated</h1>
+        <p id="celeb-desc" style="color: var(--text-secondary); font-size: 22px; max-width: 600px;">Your command of the concepts has been verified by the ScienceBridge AI system.</p>
+        <button class="btn-premium" id="celeb-btn" style="margin-top:40px; padding:20px 60px; background: #000; color: #fff;" onclick="hideCelebration()">Advance to Next Phase</button>
+    </div>
+
+    <div id="toast">Feedback Received.</div>
+
+    <script>
+        const content = [
+            { type: 'v', title: 'HTML Foundations', url: '-kGMwaROIZk', desc: 'Understanding the HyperText Markup Language architecture.' },
+            { type: 'v', title: 'Paragraph Structures', url: '6P9g8Rm3SGQ', desc: 'Implementing structural content flow with p tags.' },
+            { type: 'v', title: 'Semantic Textual Tags', url: 'uBOyrAwc7yg', desc: 'Formatting text for accessibility and emphasis.' },
+            { type: 'v', title: 'Heading Hierarchies', url: 'kkoSSqw3oLU', desc: 'Managing content priority from H1 through H6.' },
+            { type: 'v', title: 'Legacy Color Attributes', url: 'lkBRkJ6VwJU', desc: 'Historical context of web styling and bgcolor.' },
+            { type: 'q', questions: [
+                { q: "What does HTML stand for?", a: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink Text Management"], c: 0 },
+                { q: "Tag primarily used for paragraphs?", a: ["<section>", "<p>", "<div>"], c: 1 },
+                { q: "Commonly used for Bold text?", a: ["<b>", "<strong>", "Both A and B"], c: 2 },
+                { q: "How many levels of headings?", a: ["4", "6", "8"], c: 1 },
+                { q: "Old attribute for BG Color?", a: ["bgcolor", "bg-color", "color-bg"], c: 0 }
+            ]},
+            { type: 'v', title: 'List Architectures', url: 'SAdrLARl_h4', desc: 'Exploring ordered and unordered list structures.' },
+            { type: 'v', title: 'Image Embedding', url: 'U1JvX-nYwsk', desc: 'The role of alt attributes in accessible image design.' },
+            { type: 'v', title: 'Link Systems', url: 'dVtFlRSMQBg', desc: 'Creating external links and managing target behaviors.' },
+            { type: 'v', title: 'Picture & Source', url: 'VZqodzzDhtM', desc: 'Responsive media handling for diverse screen sizes.' },
+            { type: 'v', title: 'Connective Images', url: 'Cf-997q96cQ', desc: 'Making images functional as navigational link anchors.' },
+            { type: 'q', questions: [
+                { q: "Default bullet style for <ul>?", a: ["Disc", "Square", "Decimal"], c: 0 },
+                { q: "Purpose of 'alt' attribute?", a: ["File size", "Alternative text for screen readers", "Hover effect"], c: 1 },
+                { q: "Difference between _self and _blank?", a: ["No difference", "_blank opens in new tab", "_self opens in new tab"], c: 1 },
+                { q: "Why use <picture> tag?", a: ["Rounded corners", "Responsive design versions", "Animation"], c: 1 },
+                { q: "How to make image clickable?", a: ["Wrap <img> in <a>", "Use onclick", "Use href on <img>"], c: 0 }
+            ]},
+            { type: 'v', title: 'Table Cells (TD)', url: 'dFaPyVz8FGY', desc: 'Creating standard data cells within rows.' },
+            { type: 'v', title: 'Colspan Logic', url: 'ZKOa2xdnuhc', desc: 'Merging cells horizontally across columns.' },
+            { type: 'v', title: 'Complex Layouts', url: 'IqVj0CUKBMc', desc: 'Primary purpose of using rowspan and colspan together.' },
+            { type: 'q', questions: [
+                { q: "Main container tag for tables?", a: ["<grid>", "<table>", "<box>"], c: 1 },
+                { q: "Standard table cell tag?", a: ["<td>", "<th>", "<tr>"], c: 0 },
+                { q: "Merge cells horizontally?", a: ["rowspan", "colspan", "merge"], c: 1 },
+                { q: "Span across 3 rows?", a: ["rowspan='3'", "colspan='3'", "rows='3'"], c: 0 },
+                { q: "Goal of spanning attributes?", a: ["Color", "Complex layouts by merging", "Font size"], c: 1 }
+            ]},
+            { type: 'v', title: 'Python Principles', url: 'Ftr_5vUD9Yo', desc: 'The role of high-level programming in modern technology.' },
+            { type: 'v', title: 'IDLE Setup', url: 'QID6t7f-KHE', desc: 'Integrating the Development and Learning Environment.' },
+            { type: 'v', title: 'Nesting Logic', url: 'dBeF6nn_dWY', desc: 'Placing logic elements inside another for complex behavior.' },
+            { type: 'v', title: 'Machine Learning Python', url: 'Vm-fqHeeudE', desc: 'Python dominance in AI and data research.' },
+            { type: 'v', title: 'System Instructions', url: 'wSJBffyP1KY', desc: 'How Python handles complex aircraft cockpits.' },
+            { type: 'q', questions: [
+                { q: "Device using code mentioned?", a: ["Smartphone", "Pencil", "Clock"], c: 0 },
+                { q: "What is IDLE?", a: ["Integrated Development and Learning Environment", "Design Editor", "Logic Engine"], c: 0 },
+                { q: "Define 'Nesting'?", a: ["One element inside another", "Linear path", "Error"], c: 0 },
+                { q: "Why use code in cockpits?", a: ["Decoration", "Process complex instructions", "Save battery"], c: 1 },
+                { q: "Best language for ML?", a: ["HTML", "Java", "Python"], c: 2 }
+            ]}
+        ];
+
+        let cur = 0;
+
+        function initNav() {
+            const list = document.getElementById('nav-list');
+            list.innerHTML = '';
+            content.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = `curriculum-item ${i === cur ? 'active' : ''}`;
+                el.onclick = () => { cur = i; render(); };
+                el.innerHTML = `
+                    <div class="item-icon">${item.type === 'v' ? '▶' : '?'}</div>
+                    <div style="font-size: 14px; font-weight:600">${item.title || 'Knowledge Assessment'}</div>
+                `;
+                list.appendChild(el);
+            });
+        }
+
+        function render() {
+            initNav();
+            const step = content[cur];
+            
+            if(step.type === 'v') {
+                document.getElementById('learning-stage').style.display = 'block';
+                document.getElementById('quiz-stage').style.display = 'none';
+                document.getElementById('player').src = `https://www.youtube.com/embed/${step.url}?autoplay=0&rel=0`;
+                document.getElementById('step-title').innerText = step.title;
+                document.getElementById('step-desc').innerText = step.desc;
+            } else {
+                document.getElementById('learning-stage').style.display = 'none';
+                document.getElementById('quiz-stage').style.display = 'block';
+                renderQuiz(step.questions);
+            }
+        }
+
+        function renderQuiz(qs) {
+            const stack = document.getElementById('quiz-stack');
+            stack.innerHTML = '';
+            qs.forEach((q, i) => {
+                const qRow = document.createElement('div');
+                qRow.className = 'q-row';
+                const qText = document.createElement('p');
+                qText.style = "font-weight:700; font-size:18px; margin-bottom:15px";
+                qText.innerText = `${i+1}. ${q.q}`;
+                qRow.appendChild(qText);
+
+                q.a.forEach((opt, idx) => {
+                    const label = document.createElement('label');
+                    label.className = 'option-btn';
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `q${i}`;
+                    radio.value = idx;
+                    radio.style.display = 'none';
+                    label.appendChild(radio);
+                    label.append(document.createTextNode(opt));
+                    label.onclick = function() {
+                        const row = this.parentElement;
+                        row.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+                        this.classList.add('selected');
+                        this.querySelector('input').checked = true;
+                    };
+                    qRow.appendChild(label);
+                });
+                stack.appendChild(qRow);
+            });
+        }
+
+        function evaluateQuiz() {
+            const step = content[cur];
+            let score = 0;
+            step.questions.forEach((q, i) => {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if(sel && parseInt(sel.value) === q.c) {
+                    score++;
+                    sel.parentElement.classList.add('correct');
+                } else if(sel) {
+                    sel.parentElement.classList.add('wrong');
+                }
+            });
+
+            if(score === step.questions.length) {
+                if (cur === content.length - 1) {
+                    showFinalCelebration();
+                } else {
+                    showStandardCelebration();
+                }
+            } else {
+                triggerToast(`Score: ${score}/${step.questions.length}. Review required.`);
+            }
+        }
+
+        function fireConfetti() {
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#0071e3', '#34c759', '#ffcc00']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#0071e3', '#34c759', '#ffcc00']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function showStandardCelebration() {
+            document.getElementById('celeb-icon').innerText = "✨";
+            document.getElementById('celeb-title').innerText = "Research Validated";
+            document.getElementById('celeb-desc').innerText = "Your command of the concepts has been verified by the ScienceBridge AI system.";
+            document.getElementById('celeb-btn').innerText = "Advance to Next Phase";
+            document.getElementById('grad-overlay').style.display = 'flex';
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+
+        function showFinalCelebration() {
+            document.getElementById('celeb-icon').innerText = "🏆";
+            document.getElementById('celeb-title').innerText = "Pathway Mastered!";
+            document.getElementById('celeb-desc').innerText = "Congratulations! You have completed the full Python Research Pathway. You are now ready for advanced implementation.";
+            document.getElementById('celeb-btn').innerText = "Return to Dashboard";
+            document.getElementById('grad-overlay').style.display = 'flex';
+            
+            // Grand Finale Confetti
+            fireConfetti();
+        }
+
+        function triggerToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 4000);
+        }
+
+        function hideCelebration() { 
+            document.getElementById('grad-overlay').style.display = 'none'; 
+            if (cur < content.length - 1) {
+                next(); 
+            } else {
+                triggerToast("Pathway Complete! Well done.");
+            }
+        }
+
+        function next() {
+            if(cur < content.length - 1) { cur++; render(); }
+        }
+
+        render();
+    </script>
+</body>
+</html>

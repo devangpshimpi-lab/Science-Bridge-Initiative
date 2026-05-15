@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0" />
+
+  <title>ScienceBridge AI • Courses</title>
+
+  <link rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+     
+     /* =========================
+   FLAGSHIP COURSE CARD
+   ========================= */
+
+.course-card.flagship{
+
+  border:1px solid rgba(236,72,153,.35);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(236,72,153,.10),
+      rgba(139,92,246,.06),
+      rgba(255,255,255,.03)
+    );
+
+  box-shadow:
+    0 0 0 rgba(236,72,153,0),
+    0 25px 60px rgba(236,72,153,.12);
+
+  position:relative;
+  overflow:hidden;
+
+  animation: flagshipPulse 4s ease-in-out infinite;
+}
+
+/* glowing moving aura */
+.course-card.flagship::after{
+
+  content:'';
+  position:absolute;
+  inset:-2px;
+
+  background:
+    radial-gradient(circle at top left,
+      rgba(236,72,153,.25),
+      transparent 60%),
+    radial-gradient(circle at bottom right,
+      rgba(139,92,246,.25),
+      transparent 60%);
+
+  z-index:0;
+  filter: blur(20px);
+  opacity:0.7;
+}
+
+/* badge */
+.flagship-badge{
+
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+
+  color:white;
+
+  background: linear-gradient(
+    135deg,
+    #ec4899,
+    #8b5cf6,
+    #06b6d4
+  );
+
+  margin-bottom:18px;
+}
+
+/* stronger hover */
+.course-card.flagship:hover{
+
+  transform:translateY(-16px) scale(1.02);
+
+  box-shadow:
+    0 35px 80px rgba(236,72,153,.25),
+    0 0 40px rgba(139,92,246,.15);
+}
+
+/* animation */
+@keyframes flagshipPulse{
+
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-4px);
+  }
+}
+
+/* keep content above glow */
+.course-card.flagship *{
+  position:relative;
+  z-index:2;
+}
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+
+      --bg:#050816;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.04);
+      --border:rgba(255,255,255,.08);
+
+      --cyan:#67e8f9;
+      --blue:#38bdf8;
+      --purple:#a855f7;
+      --pink:#ec4899;
+
+      --text:#ffffff;
+      --muted:#94a3b8;
+
+    }
+
+    body{
+
+      font-family:'Inter',sans-serif;
+
+      background:
+      radial-gradient(circle at top left,#102043 0%,transparent 35%),
+      radial-gradient(circle at bottom right,#2b1246 0%,transparent 35%),
+      linear-gradient(to bottom,#040816,#020617);
+
+      color:white;
+
+      overflow-x:hidden;
+
+      min-height:100vh;
+    }
+
+    body::before{
+
+      content:'';
+
+      position:fixed;
+
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+
+      background-size:70px 70px;
+
+      mask-image:
+      radial-gradient(circle at center,black 20%,transparent 80%);
+
+      z-index:-5;
+    }
+
+    .noise{
+
+      position:fixed;
+      inset:0;
+
+      background-image:
+      url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+
+      opacity:.04;
+
+      pointer-events:none;
+
+      z-index:-4;
+    }
+
+    .light{
+
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(120px);
+
+      opacity:.16;
+
+      z-index:-3;
+
+      animation:float 12s ease-in-out infinite;
+    }
+
+    .light1{
+
+      width:450px;
+      height:450px;
+
+      background:#06b6d4;
+
+      top:-10%;
+      left:-10%;
+    }
+
+    .light2{
+
+      width:500px;
+      height:500px;
+
+      background:#8b5cf6;
+
+      bottom:-10%;
+      right:-10%;
+    }
+
+    @keyframes float{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-30px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+
+    }
+
+    .container{
+
+      width:100%;
+
+      max-width:1500px;
+
+      margin:auto;
+
+      padding:35px;
+    }
+
+    .topbar{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      margin-bottom:40px;
+
+      gap:20px;
+    }
+
+    .logo{
+
+      font-size:30px;
+
+      font-weight:900;
+    }
+
+    .logo span{
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #38bdf8,
+      #c084fc,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .top-actions{
+
+      display:flex;
+
+      gap:16px;
+
+      align-items:center;
+    }
+
+    .glass-chip{
+
+      padding:16px 20px;
+
+      border-radius:20px;
+
+      background:rgba(255,255,255,.05);
+
+      border:1px solid var(--border);
+
+      backdrop-filter:blur(20px);
+
+      color:#dbeafe;
+
+      font-size:14px;
+    }
+
+    .back-btn{
+
+      padding:15px 24px;
+
+      border:none;
+
+      border-radius:18px;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.35s;
+    }
+
+    .back-btn:hover{
+
+      transform:translateY(-4px);
+
+      box-shadow:
+      0 16px 35px rgba(168,85,247,.25);
+    }
+
+    /* HERO */
+
+    .hero{
+
+      position:relative;
+
+      overflow:hidden;
+
+      padding:55px;
+
+      border-radius:40px;
+
+      margin-bottom:35px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid var(--border);
+
+      backdrop-filter:blur(30px);
+    }
+
+    .hero::before{
+
+      content:'';
+
+      position:absolute;
+
+      width:500px;
+      height:500px;
+
+      background:
+      radial-gradient(circle,#06b6d4,transparent 70%);
+
+      right:-200px;
+      top:-200px;
+
+      opacity:.18;
+    }
+
+    .hero h1{
+
+      font-size:70px;
+
+      line-height:1.05;
+
+      margin-bottom:20px;
+
+      letter-spacing:-3px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .gradient{
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #38bdf8,
+      #c084fc,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero p{
+
+      color:var(--muted);
+
+      font-size:19px;
+
+      line-height:1.9;
+
+      max-width:950px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .hero-stats{
+
+      margin-top:35px;
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(220px,1fr));
+
+      gap:22px;
+    }
+
+    .hero-stat{
+
+      padding:28px;
+
+      border-radius:28px;
+
+      background:rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(20px);
+    }
+
+    .hero-stat span{
+
+      color:var(--muted);
+
+      font-size:14px;
+    }
+
+    .hero-stat h2{
+
+      margin-top:12px;
+
+      font-size:42px;
+    }
+
+    /* SECTION */
+
+    .section-title{
+
+      font-size:42px;
+
+      margin-bottom:14px;
+
+      letter-spacing:-1px;
+    }
+
+    .section-sub{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      margin-bottom:35px;
+
+      max-width:900px;
+    }
+
+    /* COURSES */
+
+    .courses-grid{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(340px,1fr));
+
+      gap:28px;
+
+      margin-bottom:50px;
+    }
+
+    .course-card{
+
+      position:relative;
+
+      overflow:hidden;
+
+      border-radius:34px;
+
+      padding:34px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(24px);
+
+      transition:.45s;
+    }
+
+    .course-card:hover{
+
+      transform:translateY(-12px);
+
+      box-shadow:
+      0 20px 45px rgba(56,189,248,.12);
+
+      border-color:
+      rgba(255,255,255,.16);
+    }
+
+    .course-card::before{
+
+      content:'';
+
+      position:absolute;
+
+      width:220px;
+      height:220px;
+
+      border-radius:50%;
+
+      top:-120px;
+      right:-120px;
+
+      background:
+      radial-gradient(circle,#38bdf8,transparent 70%);
+
+      opacity:.12;
+    }
+
+    .course-top{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:flex-start;
+
+      margin-bottom:24px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .course-icon{
+
+      font-size:52px;
+    }
+
+    .difficulty{
+
+      padding:10px 16px;
+
+      border-radius:999px;
+
+      background:rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:#dbeafe;
+
+      font-size:13px;
+
+      font-weight:600;
+    }
+
+    .course-card h2{
+
+      font-size:30px;
+
+      line-height:1.2;
+
+      margin-bottom:14px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .course-card p{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      margin-bottom:24px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .tag{
+
+      display:inline-block;
+
+      padding:10px 14px;
+
+      border-radius:999px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      margin:6px 6px 0 0;
+
+      font-size:13px;
+
+      color:#dbeafe;
+    }
+
+    .sub-section{
+
+      margin-top:28px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .sub-section h4{
+
+      margin-bottom:16px;
+
+      font-size:17px;
+
+      color:#ffffff;
+    }
+
+    .bullet{
+
+      display:flex;
+
+      gap:12px;
+
+      margin-bottom:14px;
+
+      color:#dbeafe;
+
+      line-height:1.7;
+
+      font-size:15px;
+    }
+
+    .bullet span{
+
+      color:#67e8f9;
+
+      font-weight:700;
+    }
+
+    .progress-wrap{
+
+      margin-top:28px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .progress-label{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      margin-bottom:10px;
+
+      color:#dbeafe;
+
+      font-size:14px;
+    }
+
+    .progress{
+
+      width:100%;
+
+      height:12px;
+
+      border-radius:999px;
+
+      background:#172036;
+
+      overflow:hidden;
+    }
+
+    .progress span{
+
+      display:block;
+
+      height:100%;
+
+      border-radius:999px;
+
+      background:
+      linear-gradient(
+      to right,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+    }
+
+    .card-actions{
+
+      display:flex;
+
+      gap:14px;
+
+      margin-top:30px;
+
+      position:relative;
+
+      z-index:2;
+    }
+
+    .primary{
+
+      flex:1;
+
+      padding:16px;
+
+      border:none;
+
+      border-radius:18px;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.35s;
+    }
+
+    .secondary{
+
+      flex:1;
+
+      padding:16px;
+
+      border:none;
+
+      border-radius:18px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:white;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.35s;
+    }
+
+    .primary:hover,
+    .secondary:hover{
+
+      transform:translateY(-4px);
+    }
+
+    /* FEATURED RESEARCH */
+
+    .research-box{
+
+      padding:40px;
+
+      border-radius:36px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      margin-bottom:40px;
+    }
+
+    .research-grid{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(250px,1fr));
+
+      gap:22px;
+
+      margin-top:28px;
+    }
+
+    .research-card{
+
+      padding:26px;
+
+      border-radius:26px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .research-card h3{
+
+      margin-bottom:14px;
+
+      font-size:22px;
+    }
+
+    .research-card p{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      font-size:15px;
+    }
+
+    /* FOOTER */
+
+    .footer{
+
+      text-align:center;
+
+      color:var(--muted);
+
+      padding:30px 0 10px;
+
+      line-height:1.8;
+    }
+
+    @media(max-width:900px){
+
+      .hero{
+        padding:35px;
+      }
+
+      .hero h1{
+        font-size:48px;
+      }
+
+      .container{
+        padding:22px;
+      }
+
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .hero h1{
+        font-size:38px;
+      }
+
+      .section-title{
+        font-size:32px;
+      }
+
+      .course-card{
+        padding:26px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="noise"></div>
+
+  <div class="light light1"></div>
+  <div class="light light2"></div>
+
+  <div class="container">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <div class="logo">
+        ⚛️ <span>ScienceBridge AI</span>
+      </div>
+
+      <div class="top-actions">
+
+        <div class="glass-chip">
+          Computational Literacy for the AI Era
+        </div>
+
+        <button
+          class="back-btn"
+          onclick="goDashboard()">
+          ← Dashboard
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <h1>
+
+        Computational Thinking &
+        <span class="gradient">
+          Cognitive Development
+        </span>
+
+      </h1>
+
+      <p>
+
+        ScienceBridge AI transforms coding education into a research-oriented
+        intellectual development ecosystem focused on analytical reasoning,
+        computational literacy, systems thinking, and AI-assisted problem solving.
+
+        Each learning pathway is designed to strengthen cognitive flexibility,
+        evidence-based reasoning, and real-world computational intelligence.
+
+      </p>
+
+      <div class="hero-stats">
+
+        <div class="hero-stat">
+
+          <span>Research-Oriented Learning Paths</span>
+
+          <h2>05</h2>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <span>Integrated AI Projects</span>
+
+          <h2>28+</h2>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <span>Cognitive Skill Domains</span>
+
+          <h2>19</h2>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <span>Computational Research Modules</span>
+
+          <h2>42</h2>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION -->
+
+    <h2 class="section-title">
+      Research-Oriented Learning Pathways
+    </h2>
+
+    <p class="section-sub">
+
+      Unlike traditional coding platforms focused on syntax memorization,
+      ScienceBridge AI emphasizes reasoning development, analytical depth,
+      computational problem solving, and interdisciplinary AI literacy.
+
+    </p>
+
+    <!-- COURSES -->
+
+    <div class="courses-grid">
+
+      <!-- PYTHON -->
+
+      <div class="course-card">
+
+        <div class="course-top">
+
+          <div class="course-icon">
+            🧠
+          </div>
+
+          <div class="difficulty">
+            Flagship AI Pathway
+          </div>
+
+        </div>
+
+        <h2>
+          Web Development And Python Progrraming
+        </h2>
+
+        <p>
+
+          Build modern websites, interactive applications, and computational problem-solving skills through structured web technologies and Python programming.
+
+        </p>
+
+        <div class="tag">HTML</div>
+        <div class="tag">Python</div>
+        
+
+        <div class="sub-section">
+
+          <h4>
+            Core Modules
+          </h4>
+
+          <div class="bullet">
+            <span>•</span>
+            Structure of modern websites
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Internet and browser fundamentals
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            HTML document architecture
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Responsive web layouts
+          </div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Cognitive Skills Developed
+          </h4>
+
+          <div class="tag">Analytical Reasoning</div>
+          <div class="tag">Abstraction</div>
+          <div class="tag">Decomposition</div>
+          <div class="tag">Systems Thinking</div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Research Projects
+          </h4>
+
+          <div class="bullet">
+            <span>→</span>
+            HTML & Web Foundations
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            Frontend Development
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            Python Programming
+          </div>
+        <div class="bullet">
+            <span>→</span>
+            Interactive Application Development
+          </div>
+          <div class="bullet">
+            <span>→</span>
+            Computational Problem Solving
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+
+          <div class="progress-label">
+
+            <span>EASY ONE</span>
+
+            <span>Good</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:90%"></span>
+          </div>
+
+        </div>
+
+        <div class="card-actions">
+
+          <button class="primary"
+            onclick="window.location.href='web.html'">
+            Enter Research Path
+          </button>
+
+          <button class="secondary"
+            onclick="viewSyllabus('python')">
+            Syllabus
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- JAVASCRIPT -->
+
+      <div class="course-card">
+
+        <div class="course-top">
+
+          <div class="course-icon">
+            ⚡
+          </div>
+
+          <div class="difficulty">
+            Interactive Systems
+          </div>
+
+        </div>
+
+        <h2>
+          Artificial Intelligence And Machine Learning
+        </h2>
+
+        <p>
+
+          Explore artificial intelligence, machine learning systems, data science, NLP, and computer vision through modern computational frameworks and research-driven learning.
+
+        </p>
+
+        <div class="tag">Python</div>
+        <div class="tag">Machine Learning</div>
+        <div class="tag">NLP</div>
+        <div class="tag">Data Science</div>
+        <div class="tag">Computer Vision</div>
+
+        <div class="sub-section">
+
+          <h4>
+            Core Modules
+          </h4>
+
+          <div class="bullet">
+            <span>•</span>
+            Introduction to AI systems
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Computational intelligence concepts
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            How AI models learn
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Neural network fundamentals
+          </div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Cognitive Skills Developed
+          </h4>
+
+          <div class="tag">Datasets and prediction systems</div>
+          <div class="tag">Interaction Logic</div>
+          <div class="tag">Adaptive Thinking</div>
+          <div class="tag">Creative Engineering</div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Research Projects
+          </h4>
+
+          <div class="bullet">
+            <span>→</span>
+            Sentiment analyzer
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            Data visualization fundamentals
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            How computers interpret images
+          </div>
+
+        </div>
+
+        <div class="progress-wrap">
+
+          <div class="progress-label">
+
+            <span>LOVELY</span>
+
+            <span>Better</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:95%"></span>
+          </div>
+
+        </div>
+
+        <div class="card-actions">
+
+          <button class="primary"
+            onclick="window.location.href='AIML.html'">
+            Enter Research Path
+          </button>
+
+          <button class="secondary"
+            onclick="viewSyllabus('javascript')">
+            Syllabus
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- SQL -->
+
+      <div class="course-card flagship">
+
+        <div class="course-top">
+
+          <div class="course-icon">
+            📊
+          </div>
+
+          <div class="difficulty">
+            Data Intelligence
+          </div>
+
+        </div>
+
+        <h2>
+          Fake News Detection Research & Innovation Program
+        </h2>
+        <div class="flagship-badge">
+        FLAGSHIP RESEARCH PROJECT
+        </div>
+        <p>
+
+          A collaborative research-driven capstone program where students work alongside mentors to build intelligent misinformation detection systems using modern AI technologies.
+
+        </p>
+
+        <div class="tag">NLP</div>
+        <div class="tag">Machine Learning</div>
+        <div class="tag">Data Analysis</div>
+        <div class="tag">AI Reasoning Systems</div>
+
+        <div class="sub-section">
+
+          <h4>
+            Core Modules
+          </h4>
+
+          <div class="bullet">
+            <span>•</span>
+            Understanding fake news ecosystems
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Information credibility analysis
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Digital Misinformation Paatterns
+          </div>
+
+          <div class="bullet">
+            <span>•</span>
+            Crtical Evaluation Frameworks
+          </div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Cognitive Skills Developed
+          </h4>
+
+          <div class="tag">Research Thinking</div>
+          <div class="tag">AI System Design</div>
+          <div class="tag">Problem Solving</div>
+          <div class="tag">Scientific Analysis</div>
+
+        </div>
+
+        <div class="sub-section">
+
+          <h4>
+            Research Projects
+          </h4>
+
+          <div class="bullet">
+            <span>→</span>
+            Student analytics dashboard
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            Reasoning intelligence database
+          </div>
+
+          <div class="bullet">
+            <span>→</span>
+            AI dataset management system
+          </div>
+
+        </div>
+
+        <div class="progress-wrap">
+
+          <div class="progress-label">
+
+            <span>PERFECT!!</span>
+
+            <span>Best%</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:100%"></span>
+          </div>
+
+        </div>
+
+        <div class="card-actions">
+
+          <button class="primary"
+            onclick="window.location.href='devang.html'">
+            Enter Research Path
+          </button>
+
+          <button class="secondary"
+            onclick="viewSyllabus('sql')">
+            Syllabus
+          </button>
+
+        </div>
+
+      </div>
+
+      </div>
+      <!-- HTML CSS -->
+    <!-- RESEARCH BOX -->
+
+    <section class="research-box">
+
+      <h2 class="section-title">
+        Educational AI Research Integration
+      </h2>
+
+      <p class="section-sub">
+
+        Every ScienceBridge AI pathway is connected to reasoning development,
+        computational cognition, and AI-assisted educational research systems.
+
+      </p>
+
+      <div class="research-grid">
+
+        <div class="research-card">
+
+          <h3>
+            🧠 Cognitive Development
+          </h3>
+
+          <p>
+
+            Courses are structured to strengthen abstraction,
+            analytical reasoning, decomposition, evidence integration,
+            and systems thinking.
+
+          </p>
+
+        </div>
+
+        <div class="research-card">
+
+          <h3>
+            🤖 AI Research Orientation
+          </h3>
+
+          <p>
+
+            Students build transformer-integrated projects,
+            educational NLP systems, and reasoning analysis interfaces.
+
+          </p>
+
+        </div>
+
+        <div class="research-card">
+
+          <h3>
+            📈 Longitudinal Skill Growth
+          </h3>
+
+          <p>
+
+            The platform tracks evolving intellectual patterns,
+            computational sophistication, and analytical progression.
+
+          </p>
+
+        </div>
+
+        <div class="research-card">
+
+          <h3>
+            🌍 Educational Impact
+          </h3>
+
+          <p>
+
+            ScienceBridge AI aims to democratize access to advanced
+            reasoning development and computational literacy tools.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+      ScienceBridge AI • Computational Reasoning • Educational Intelligence • Cognitive Development
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function goDashboard(){
+
+      window.location.href = "dashboard.html";
+
+    }
+
+    
+       
+
+    function viewSyllabus(course){
+
+      const syllabus = {
+
+        python:
+        "Python AI Pathway:\\n\\n• Computational foundations\\n• Problem solving\\n• Data science\\n• NLP systems\\n• Machine learning\\n• AI ethics",
+
+        javascript:
+        "Interactive Intelligence Systems:\\n\\n• DOM systems\\n• APIs\\n• Async logic\\n• Real-time interfaces\\n• AI integrations\\n• Educational UX",
+
+        sql:
+        "Data & Decision Intelligence:\\n\\n• Information systems\\n• Query logic\\n• Educational analytics\\n• Data pipelines\\n• AI datasets",
+
+        cpp:
+        "Computational Optimization Systems:\\n\\n• Memory systems\\n• Algorithms\\n• Recursion\\n• Optimization\\n• Intelligent computation",
+
+        htmlcss:
+        "Human-Centered Interface Engineering:\\n\\n• Semantic systems\\n• Accessibility\\n• Cognitive design\\n• Educational UI\\n• Research dashboards"
+
+      };
+
+      alert(syllabus[course]);
+
+    }
+    function updateProgressUI() {
+    const webStatus = document.getElementById('web-status');
+    const webBar = document.getElementById('web-bar');
+
+    // Check if the user finished the course in web.html
+    const isWebComplete = localStorage.getItem('web_completed') === 'true';
+
+    if (isWebComplete) {
+        webStatus.innerText = "100%";
+        webBar.style.width = "100%";
+        webStatus.style.color = "#67e8f9"; // Optional: Cyan glow for completion
+    } else {
+        webStatus.innerText = "Pending";
+        webBar.style.width = "0%";
+    }
+}
+
+// Run this immediately when the page loads
+window.addEventListener('DOMContentLoaded', updateProgressUI);
+
+  </script>
+
+</body>
+
+</html>

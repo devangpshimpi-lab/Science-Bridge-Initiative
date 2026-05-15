@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Team • ScienceBridge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030612;
+            --accent-cyan: #67e8f9;
+            --accent-purple: #a855f7;
+            /* Lighter glass shades */
+            --glass-light: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-main: #ffffff;
+            --text-dim: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(103, 232, 249, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: -1px; }
+        .logo span { color: var(--accent-cyan); }
+
+        /* --- HERO BOX (Matching the "Learning Reimagined" Image) --- */
+        .hero-section {
+            padding: 160px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .research-badge {
+            background: rgba(103, 232, 249, 0.1);
+            border: 1px solid rgba(103, 232, 249, 0.2);
+            padding: 6px 16px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .research-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 20px;
+            max-width: 1000px;
+        }
+
+        h1 span {
+            background: linear-gradient(to right, var(--accent-cyan), #38bdf8, var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-dim);
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        /* --- TEAM GRID LAYOUT --- */
+        .team-wrapper {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns for a clean balanced look */
+            gap: 24px;
+        }
+
+        /* Special sizing for the Lead (First card) to span full width */
+        .card-full {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)) !important;
+        }
+
+        .member-card {
+            background: var(--glass-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .member-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .member-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(103, 232, 249, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .role-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .resp-list {
+            list-style: none;
+        }
+
+        .resp-list li {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .resp-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 850px) {
+            .team-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 48px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Science<span>Bridge</span> AI</div>
+        <a href="dashboard.html" style="color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 500;">← Back</a>
+    </nav>
+
+    <header class="hero-section">
+        <div class="research-badge">Human Intelligence x AI Systems</div>
+        <h1>The faces behind <span>ScienceBridge</span></h1>
+        <p class="hero-desc">A rigorous team of researchers and strategists dedicated to elevating scientific and computational thinking for the next generation.</p>
+    </header>
+
+    <main class="team-wrapper">
+        <div class="team-grid">
+            
+            <div class="member-card card-full">
+                <span class="role-label">Founder & Lead Researcher</span>
+                <h2>Devang Shimpi</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <ul class="resp-list">
+                        <li>Overall vision & AI research direction</li>
+                        <li>Transformer-based NLP model development</li>
+                    </ul>
+                    <ul class="resp-list">
+                        <li>AI infrastructure & live model deployment</li>
+                        <li>Cognitive analysis systems engineering</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Educational Strategy</span>
+                <h2>Kanishka Sharma</h2>
+                <ul class="resp-list">
+                    <li>Learning frameworks & pathway architecture</li>
+                    <li>Platform-content alignment with cognitive goals</li>
+                    <li>Research on effective learning methodologies</li>
+                </ul>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Community & Impact</span>
+                <h2>Anay Telang</h2>
+                <ul class="resp-list">
+                    <li>Student outreach & community participation</li>
+                    <li>Educational awareness & social impact initiatives</li>
+                    <li>Gathering engagement insights & user feedback</li>
+                </ul>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Research Documentation</span>
+                <h2>Aakruti Tulsiani</h2>
+                <ul class="resp-list">
+                    <li>Management of project methodology reports</li>
+                    <li>Research findings & academic summaries</li>
+                    <li>Maintaining academic presentation standards</li>
+                </ul>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Operations & Workflow</span>
+                <h2>Yashashvi Singh</h2>
+                <ul class="resp-list">
+                    <li>Team coordination & task organization</li>
+                    <li>Timeline management & collaborative planning</li>
+                    <li>Inter-team communication efficiency</li>
+                </ul>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Institutional Relations</span>
+                <h2>Laksh Vijayvargia</h2>
+                <ul class="resp-list">
+                    <li>Institutional communication & academic outreach</li>
+                    <li>Project representation in presentations</li>
+                    <li>Partnership development & networking</li>
+                </ul>
+            </div>
+
+            <div class="member-card">
+                <span class="role-label">Student Success</span>
+                <h2>Harshwardhar Singh</h2>
+                <ul class="resp-list">
+                    <li>Analyzing student learning patterns</li>
+                    <li>Educational effectiveness feedback loops</li>
+                    <li>Educational UX improvement suggestions</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        © 2026 ScienceBridge Initiative — student-led, future-built.
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('reveal');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.member-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Fake News Research • Devang Shimpi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+    --bg:#020617;
+    --bg2:#071120;
+    --bg3:#0b1020;
+
+    --card:#0b1220;
+    --glass:rgba(255,255,255,0.05);
+    --border:rgba(255,255,255,0.08);
+
+    --red:#ff4d6d;
+    --blue:#4f8cff;
+    --purple:#8b5cf6;
+
+    --text:#ffffff;
+    --muted:#94a3b8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(255,77,109,0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(79,140,255,0.12), transparent 30%),
+        radial-gradient(circle at bottom center, rgba(139,92,246,0.12), transparent 35%),
+        linear-gradient(180deg,var(--bg) 0%, var(--bg2) 45%, var(--bg3) 100%);
+
+    color:var(--text);
+    overflow-x:hidden;
+    perspective:1200px;
+}
+
+/* SCROLL BAR */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#030712;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(var(--red),var(--blue));
+    border-radius:20px;
+}
+
+/* GLOWING ORBS */
+
+.orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(100px);
+    z-index:-1;
+    opacity:0.35;
+    animation:float 10s ease-in-out infinite;
+}
+
+.orb1{
+    width:400px;
+    height:400px;
+    background:#ff4d6d;
+    top:-120px;
+    left:-120px;
+}
+
+.orb2{
+    width:350px;
+    height:350px;
+    background:#4f8cff;
+    right:-100px;
+    top:40%;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:300px;
+    height:300px;
+    background:#8b5cf6;
+    bottom:-100px;
+    left:30%;
+    animation-delay:4s;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-40px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* NAVBAR */
+
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:28px 60px;
+
+    backdrop-filter:blur(20px);
+    background:rgba(0,0,0,0.25);
+
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.close-btn{
+    text-decoration:none;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    transition:0.4s;
+}
+
+.close-btn:hover{
+    color:var(--blue);
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    padding:120px 20px 80px;
+
+    position:relative;
+}
+
+.badge{
+    padding:10px 24px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+
+    backdrop-filter:blur(10px);
+
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    margin-bottom:35px;
+}
+
+.hero h1{
+    font-size:clamp(60px,9vw,130px);
+    line-height:0.92;
+    font-weight:900;
+    letter-spacing:-6px;
+
+    margin-bottom:30px;
+
+    transform-style:preserve-3d;
+
+    animation:heroFloat 5s ease-in-out infinite;
+}
+
+@keyframes heroFloat{
+    0%{
+        transform:translateY(0px) rotateX(0deg);
+    }
+    50%{
+        transform:translateY(-15px) rotateX(4deg);
+    }
+    100%{
+        transform:translateY(0px) rotateX(0deg);
+    }
+}
+
+.hero h1 span{
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #ff8ea3,
+        #72a7ff,
+        #fff
+    );
+
+    background-size:200% auto;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:shine 6s linear infinite;
+}
+
+@keyframes shine{
+    to{
+        background-position:200% center;
+    }
+}
+
+.lead{
+    max-width:900px;
+    color:var(--muted);
+    font-size:22px;
+    line-height:1.8;
+}
+
+/* APPLE STYLE SCROLL SECTION */
+
+.scroll-section{
+    width:100%;
+    padding:120px 0;
+}
+
+.sticky-showcase{
+    position:sticky;
+    top:120px;
+
+    width:90%;
+    max-width:1400px;
+
+    margin:auto;
+
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:40px;
+
+    overflow:hidden;
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 40px 80px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+
+    transform-style:preserve-3d;
+
+    transition:0.5s ease;
+}
+
+.sticky-showcase:hover{
+    transform:
+        rotateX(4deg)
+        rotateY(-4deg)
+        scale(1.01);
+}
+
+.big-screen{
+    width:100%;
+    height:800px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.01)
+        );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.big-screen::before{
+    content:'';
+
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(circle at center,
+        rgba(79,140,255,0.12),
+        transparent 60%);
+}
+
+.screen-content{
+    width:88%;
+    height:85%;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #020617
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 40px 80px rgba(0,0,0,0.6),
+        inset 0 0 30px rgba(255,255,255,0.03);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:32px;
+    font-weight:800;
+    color:#cbd5e1;
+
+    transform:translateZ(40px);
+}
+
+/* FEATURES */
+
+.feature-stack{
+    width:90%;
+    max-width:1400px;
+    margin:120px auto;
+
+    display:flex;
+    flex-direction:column;
+    gap:120px;
+}
+
+.feature-block{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+
+    opacity:0;
+    transform:translateY(100px);
+
+    animation:fadeIn linear forwards;
+    animation-timeline:view();
+    animation-range:entry 10% cover 35%;
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.feature-text h2{
+    font-size:60px;
+    line-height:1;
+    margin-bottom:25px;
+    letter-spacing:-3px;
+}
+
+.feature-text p{
+    color:var(--muted);
+    font-size:19px;
+    line-height:1.8;
+}
+
+.feature-visual{
+    height:500px;
+
+    border-radius:35px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.05),
+            rgba(255,255,255,0.02)
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:26px;
+    font-weight:800;
+
+    transform-style:preserve-3d;
+
+    transition:0.6s ease;
+
+    box-shadow:
+        0 40px 80px rgba(0,0,0,0.35);
+}
+
+.feature-visual:hover{
+    transform:
+        rotateX(10deg)
+        rotateY(-10deg)
+        translateY(-15px);
+
+    box-shadow:
+        0 50px 100px rgba(79,140,255,0.15),
+        0 50px 100px rgba(255,77,109,0.12);
+}
+
+/* BIG SCREENSHOT BOXES */
+
+.showcase-grid{
+    width:92%;
+    max-width:1600px;
+
+    margin:120px auto;
+
+    display:grid;
+    grid-template-columns:1fr;
+    gap:60px;
+}
+
+.screenshot-box{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.05),
+            rgba(255,255,255,0.02)
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:40px;
+
+    overflow:hidden;
+
+    padding:30px;
+
+    transform-style:preserve-3d;
+
+    transition:0.6s ease;
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 40px 80px rgba(0,0,0,0.45);
+}
+
+.screenshot-box:hover{
+    transform:
+        rotateX(5deg)
+        rotateY(-5deg)
+        translateY(-12px);
+
+    border-color:rgba(255,255,255,0.16);
+}
+
+.img-placeholder{
+    width:100%;
+    height:650px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111827,
+            #020617
+        );
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:32px;
+    font-weight:800;
+    color:#94a3b8;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.img-placeholder::before{
+    content:'';
+
+    position:absolute;
+    width:500px;
+    height:500px;
+
+    background:
+        radial-gradient(circle,
+        rgba(79,140,255,0.15),
+        transparent 70%);
+
+    animation:rotateGlow 10s linear infinite;
+}
+
+@keyframes rotateGlow{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.screenshot-label{
+    padding:30px 10px 10px;
+}
+
+.screenshot-label h3{
+    font-size:36px;
+    margin-bottom:15px;
+
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #72a7ff
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.screenshot-label p{
+    font-size:18px;
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* APPLY SECTION */
+
+.apply-card{
+    width:90%;
+    max-width:1200px;
+
+    margin:180px auto;
+
+    text-align:center;
+
+    padding:100px 60px;
+
+    border-radius:45px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.06),
+            rgba(255,255,255,0.02)
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 50px 100px rgba(0,0,0,0.45);
+}
+
+.apply-card h2{
+    font-size:70px;
+    line-height:1;
+    margin-bottom:25px;
+    letter-spacing:-3px;
+}
+
+.apply-card p{
+    color:var(--muted);
+    font-size:20px;
+    line-height:1.8;
+}
+
+.email-link{
+    display:inline-block;
+
+    margin-top:40px;
+
+    padding:22px 60px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            var(--blue)
+        );
+
+    color:#fff;
+    text-decoration:none;
+
+    font-size:18px;
+    font-weight:800;
+
+    transition:0.4s;
+
+    box-shadow:
+        0 25px 50px rgba(79,140,255,0.2);
+}
+
+.email-link:hover{
+    transform:
+        translateY(-8px)
+        scale(1.03);
+
+    box-shadow:
+        0 35px 70px rgba(79,140,255,0.3);
+}
+/* APPLIED BUTTON */
+
+.email-link.applied{
+
+    background:
+        linear-gradient(
+            90deg,
+            #22c55e,
+            #16a34a
+        );
+
+    box-shadow:
+        0 25px 50px rgba(34,197,94,0.25);
+
+    cursor:default;
+}
+
+.email-link.applied:hover{
+
+    transform:none;
+
+    box-shadow:
+        0 25px 50px rgba(34,197,94,0.25);
+}
+/* FOOTER */
+
+footer{
+    padding:80px 20px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    border-top:1px solid rgba(255,255,255,0.06);
+
+    font-size:13px;
+    letter-spacing:2px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .feature-block{
+        grid-template-columns:1fr;
+    }
+
+    .feature-text h2{
+        font-size:42px;
+    }
+
+    .apply-card h2{
+        font-size:48px;
+    }
+
+    .img-placeholder{
+        height:420px;
+    }
+}
+
+@media(max-width:768px){
+
+    nav{
+        padding:20px;
+    }
+
+    .hero h1{
+        font-size:62px;
+    }
+
+    .lead{
+        font-size:18px;
+    }
+
+    .screen-content{
+        font-size:18px;
+    }
+
+    .big-screen{
+        height:500px;
+    }
+
+    .img-placeholder{
+        height:300px;
+        font-size:20px;
+    }
+
+    .screenshot-label h3{
+        font-size:28px;
+    }
+
+    .apply-card{
+        padding:70px 25px;
+    }
+
+    .apply-card h2{
+        font-size:42px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        Science<span>Bridge</span> Lab
+    </div>
+
+    <a href="courses.html" class="close-btn">
+        CLOSE EXPERIMENT ×
+    </a>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="badge">
+        IVY LEAGUE RESEARCH CAPSTONE
+    </div>
+
+    <h1>
+        <span>Fake News</span><br>
+        Detection & AI
+    </h1>
+
+    <p class="lead">
+        Join a select cohort of students working directly with
+        <strong>Devang Shimpi</strong> to engineer the next generation
+        of misinformation detection systems.
+        This is not a course — it is a research publication track.
+    </p>
+
+</section>
+
+<!-- APPLE STYLE MAIN SCREEN -->
+
+
+
+<!-- SCROLL FEATURES -->
+
+<section class="feature-stack">
+
+    <div class="feature-block">
+
+        <div class="feature-text">
+
+            <h2>
+                Neural<br>
+                Logic Engine
+            </h2>
+
+            <p>
+                Transformer-based reasoning systems analyze
+                contradictions, sentiment shifts, credibility
+                patterns, and linguistic structures inside
+                misinformation datasets.
+            </p>
+
+        </div>
+
+        <div class="feature-visual">
+            <img src = main.png height = 500 width="700">
+        </div>
+
+    </div>
+
+    <div class="feature-block">
+
+        <div class="feature-text">
+
+            <h2>
+                Real-Time<br>
+                Detection
+            </h2>
+
+            <p>
+                The integrated dashboard continuously scans
+                and evaluates<br> fake news clusters through
+                multi-layer predictive AI analysis<br> engines.
+            </p>
+
+        </div>
+
+        <div class="feature-visual">
+            <img src = fake.png height = 500 width = 700>
+        </div>
+
+    </div>
+
+    <div class="feature-block">
+
+        <div class="feature-text">
+
+            <h2>
+                Research<br>
+                Publication
+            </h2>
+
+            <p>
+                Students collaborate on publication-oriented
+                AI systems and advanced misinformation
+                detection frameworks for academic exposure.
+            </p>
+
+        </div>
+
+        <div class="feature-visual">
+            <img src = research.png height = 500 width = 700>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- BIG SCREENSHOT BOXES -->
+
+<section class="showcase-grid">
+
+    <div class="screenshot-box">
+
+        <div class="img-placeholder">
+            <img src = Transformer.png height = 700 width = 1600>
+        </div>
+
+        <div class="screenshot-label">
+
+            <h3>Transformer</h3>
+
+            <p>
+                Visualization of the transformer-based
+                architecture used for misinformation
+                reasoning and AI-assisted verification.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="screenshot-box">
+
+        <div class="img-placeholder">
+            <img src = Ex.png height=700 width = 1600>
+        </div>
+
+        <div class="screenshot-label">
+
+            <h3>Exploratory Data</h3>
+
+            <p>
+                Live dataset analysis showing misinformation
+                propagation clusters.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="screenshot-box">
+
+        <div class="img-placeholder">
+            <img src = Gradio.png height =700 width = 1600>
+        </div>
+
+        <div class="screenshot-label">
+
+            <h3>Testing the model</h3>
+
+            <p>
+                The student-operated interface for model
+                testing, annotation, training, and reasoning.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- APPLY -->
+
+<section class="apply-card">
+
+    <h2>
+        Ready to join the Lab?
+    </h2>
+
+    <p>
+        This program is by invitation or application only.
+        Submit your academic interests and why you want
+        to work on Fake News Detection and AI systems.
+    </p>
+<button class="email-link" id="applyBtn" onclick="openForm()">
+    Apply to Devang Shimpi
+</button>
+
+<p style="margin-top:25px; font-size:14px;">
+    Direct Email: devangpshimpi@gmail.com
+</p>
+
+</section>
+
+<!-- APPLICATION POPUP -->
+
+<div class="popup-overlay" id="popup">
+
+    <div class="popup-box">
+
+        <span class="close-popup" onclick="closeForm()">×</span>
+
+        <h2>Research Application</h2>
+
+        <p>
+            Apply for the Fake News Detection & AI Research Cohort
+        </p>
+
+        <form onsubmit="sendApplication(event)">
+
+            <input type="hidden"
+                   name="_subject"
+                   value="New Research Application">
+
+            <input type="text"
+                   name="name"
+                   placeholder="Full Name"
+                   required>
+
+            <input type="email"
+                   name="email"
+                   placeholder="Email Address"
+                   required>
+
+            <textarea name="message"
+                      rows="6"
+                      placeholder="Why do you want to join this research project?"
+                      required></textarea>
+
+            <button type="submit" class="submit-btn">
+                Submit Application
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+    LIMITED RESEARCH ACCESS • © 2026 SCIENCEBRIDGE AI • DIRECTED BY DEVANG SHIMPI
+
+</footer>
+
+<style>
+
+/* POPUP FORM */
+
+.popup-overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,0.78);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:5000;
+
+    backdrop-filter:blur(12px);
+}
+
+.popup-box{
+
+    width:90%;
+    max-width:620px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,23,42,0.96),
+            rgba(2,6,23,0.98)
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:35px;
+
+    padding:45px;
+
+    position:relative;
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.6);
+}
+
+.popup-box h2{
+
+    font-size:42px;
+    margin-bottom:10px;
+
+    letter-spacing:-2px;
+}
+
+.popup-box p{
+
+    color:#94a3b8;
+    margin-bottom:30px;
+
+    line-height:1.7;
+}
+
+.popup-box input,
+.popup-box textarea{
+
+    width:100%;
+
+    margin-bottom:18px;
+
+    padding:18px 20px;
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    background:rgba(255,255,255,0.04);
+
+    color:#fff;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:0.3s;
+}
+
+.popup-box input:focus,
+.popup-box textarea:focus{
+
+    border-color:#4f8cff;
+
+    box-shadow:
+        0 0 20px rgba(79,140,255,0.15);
+}
+
+.submit-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4d6d,
+            #4f8cff
+        );
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:0.4s;
+
+    margin-top:10px;
+}
+
+.submit-btn:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.01);
+
+    box-shadow:
+        0 25px 50px rgba(79,140,255,0.25);
+}
+
+.close-popup{
+
+    position:absolute;
+
+    top:16px;
+    right:24px;
+
+    font-size:34px;
+
+    cursor:pointer;
+
+    color:#94a3b8;
+
+    transition:0.3s;
+}
+
+.close-popup:hover{
+
+    color:#fff;
+}
+
+</style>
+
+<script>
+
+function openForm(){
+    if(localStorage.getItem("appliedResearch") === "true"){
+
+        return;
+    }
+    const popup =
+        document.getElementById("popup");
+
+    popup.style.display = "flex";
+
+    popup.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+    document.body.style.overflow = "hidden";
+}
+
+function closeForm(){
+
+    document.getElementById("popup").style.display = "none";
+
+    document.body.style.overflow = "auto";
+}
+
+window.onclick = function(event){
+
+    const popup =
+        document.getElementById("popup");
+
+    if(event.target === popup){
+
+        closeForm();
+    }
+}
+
+function sendApplication(event){
+
+    event.preventDefault();
+
+    const name =
+        document.querySelector('input[name="name"]').value;
+
+    const email =
+        document.querySelector('input[name="email"]').value;
+
+    const message =
+        document.querySelector('textarea[name="message"]').value;
+
+    const subject =
+        encodeURIComponent("Research Application");
+
+    const body =
+        encodeURIComponent(
+
+`Name: ${name}
+
+Email: ${email}
+
+Why I want to join:
+
+${message}`
+
+        );
+
+    window.open(
+
+`https://mail.google.com/mail/?view=cm&fs=1&to=devangpshimpi@gmail.com&su=${subject}&body=${body}`,
+
+        "_blank"
+    );
+}
+</script>
+<!-- SUCCESS POPUP -->
+
+<div class="success-popup" id="successPopup">
+
+    <canvas id="confetti"></canvas>
+
+    <div class="success-box">
+
+        <div class="success-glow"></div>
+
+        <div class="checkmark">
+            ✓
+        </div>
+
+        <h2>
+            Application Submitted
+        </h2>
+
+        <p>
+            Your research application has been successfully
+            submitted to <strong>Devang Shimpi</strong> and the
+            ScienceBridge AI research team.
+            <br><br>
+            Our team will review your interest and connect
+            with you shortly regarding the next steps.
+        </p>
+
+        <button onclick="closeSuccess()" class="done-btn">
+            Continue Exploring
+        </button>
+
+    </div>
+
+</div>
+
+<style>
+
+/* SUCCESS POPUP */
+
+.success-popup{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+    background:rgba(0,0,0,0.72);
+
+    backdrop-filter:blur(16px);
+
+    overflow:hidden;
+}
+
+.success-box{
+
+    width:90%;
+    max-width:700px;
+
+    padding:70px 50px;
+
+    border-radius:40px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,23,42,0.96),
+            rgba(2,6,23,0.98)
+        );
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,0.7);
+
+    animation:successEnter 0.8s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes successEnter{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(50px)
+            scale(0.9);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.success-glow{
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    background:
+        radial-gradient(circle,
+        rgba(79,140,255,0.25),
+        transparent 70%);
+
+    top:-120px;
+    right:-100px;
+
+    filter:blur(20px);
+}
+
+.checkmark{
+
+    width:120px;
+    height:120px;
+
+    margin:0 auto 30px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:54px;
+    font-weight:900;
+
+    background:
+        linear-gradient(
+            135deg,
+            #22c55e,
+            #4ade80
+        );
+
+    box-shadow:
+        0 20px 50px rgba(34,197,94,0.35);
+
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+.success-box h2{
+
+    font-size:54px;
+    margin-bottom:20px;
+
+    letter-spacing:-3px;
+}
+
+.success-box p{
+
+    color:#94a3b8;
+
+    font-size:18px;
+    line-height:1.9;
+
+    max-width:560px;
+    margin:auto;
+}
+
+.done-btn{
+
+    margin-top:40px;
+
+    padding:18px 45px;
+
+    border:none;
+    border-radius:18px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4d6d,
+            #4f8cff
+        );
+
+    transition:0.4s;
+}
+
+.done-btn:hover{
+
+    transform:
+        translateY(-5px)
+        scale(1.03);
+
+    box-shadow:
+        0 25px 50px rgba(79,140,255,0.25);
+}
+
+#confetti{
+
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    pointer-events:none;
+}
+
+</style>
+
+<script>
+
+/* SUCCESS POPUP */
+
+function showSuccess(){
+
+    document.getElementById("successPopup")
+        .style.display = "flex";
+
+    launchConfetti();
+}
+
+function closeSuccess(){
+
+    document.getElementById("successPopup")
+        .style.display = "none";
+}
+
+/* MODIFY EXISTING SEND FUNCTION */
+
+function sendApplication(event){
+
+    event.preventDefault();
+
+    const name =
+        document.querySelector('input[name="name"]').value;
+
+    const email =
+        document.querySelector('input[name="email"]').value;
+
+    const message =
+        document.querySelector('textarea[name="message"]').value;
+
+    const subject =
+        encodeURIComponent("Research Application");
+
+    const body =
+        encodeURIComponent(
+
+`Name: ${name}
+
+Email: ${email}
+
+Why I want to join:
+
+${message}`
+
+        );
+
+    window.open(
+
+`https://mail.google.com/mail/?view=cm&fs=1&to=devangpshimpi@gmail.com&su=${subject}&body=${body}`,
+
+        "_blank"
+    );
+
+    closeForm();
+
+    /* SAVE APPLICATION STATUS */
+
+    localStorage.setItem(
+        "appliedResearch",
+        "true"
+    );
+
+    /* CHANGE BUTTON */
+
+    const applyBtn =
+        document.getElementById("applyBtn");
+
+    applyBtn.innerHTML =
+        "✓ Already Applied";
+
+    applyBtn.classList.add("applied");
+
+    setTimeout(() => {
+
+        showSuccess();
+
+}, 700);
+}
+
+/* CONFETTI */
+
+function launchConfetti(){
+
+    const canvas =
+        document.getElementById("confetti");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+    const pieces = [];
+
+    for(let i=0;i<180;i++){
+
+        pieces.push({
+
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height-canvas.height,
+
+            size:Math.random()*10+4,
+
+            speedY:Math.random()*5+2,
+            speedX:(Math.random()-0.5)*4,
+
+            rotation:Math.random()*360
+        });
+    }
+
+    function animate(){
+
+        ctx.clearRect(
+            0,0,
+            canvas.width,
+            canvas.height
+        );
+
+        pieces.forEach(p=>{
+
+            ctx.save();
+
+            ctx.translate(p.x,p.y);
+
+            ctx.rotate(p.rotation);
+
+            ctx.fillStyle =
+                `hsl(${Math.random()*360},100%,60%)`;
+
+            ctx.fillRect(
+                -p.size/2,
+                -p.size/2,
+                p.size,
+                p.size
+            );
+
+            ctx.restore();
+
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.rotation += 0.03;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+window.onload = function(){
+
+    if(localStorage.getItem("appliedResearch") === "true"){
+
+        const applyBtn =
+            document.getElementById("applyBtn");
+
+        applyBtn.innerHTML =
+            "✓ Already Applied";
+
+        applyBtn.classList.add("applied");
+    }
+};
+
+</script>
+
+</body>
+</html>

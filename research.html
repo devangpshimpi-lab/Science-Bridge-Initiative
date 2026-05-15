@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0" />
+
+  <title>
+    ScienceBridge AI Research Initiative
+  </title>
+
+  <link rel="preconnect"
+  href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+
+      --bg:#040816;
+      --glass:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.08);
+
+      --cyan:#67e8f9;
+      --blue:#38bdf8;
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+
+      --text:#ffffff;
+      --muted:#94a3b8;
+
+    }
+
+    body{
+
+      font-family:'Inter',sans-serif;
+
+      background:
+      radial-gradient(circle at top left,#101935 0%,transparent 35%),
+      radial-gradient(circle at bottom right,#2b1144 0%,transparent 35%),
+      linear-gradient(to bottom,#040816,#020617);
+
+      color:white;
+
+      min-height:100vh;
+
+      overflow-x:hidden;
+
+    }
+
+    body::before{
+
+      content:'';
+
+      position:fixed;
+
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+
+      background-size:70px 70px;
+
+      mask-image:
+      radial-gradient(circle at center,black 20%,transparent 80%);
+
+      pointer-events:none;
+
+      z-index:-5;
+
+    }
+
+    .floating-light{
+
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(120px);
+
+      opacity:.18;
+
+      z-index:-3;
+
+      animation:float 12s ease-in-out infinite;
+
+    }
+
+    .light1{
+
+      width:500px;
+      height:500px;
+
+      background:#06b6d4;
+
+      top:-10%;
+      left:-10%;
+
+    }
+
+    .light2{
+
+      width:600px;
+      height:600px;
+
+      background:#8b5cf6;
+
+      bottom:-15%;
+      right:-10%;
+
+      animation-delay:2s;
+
+    }
+
+    .light3{
+
+      width:450px;
+      height:450px;
+
+      background:#ec4899;
+
+      top:35%;
+      left:40%;
+
+      animation-delay:5s;
+
+    }
+
+    @keyframes float{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-40px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+
+    }
+
+    .dashboard{
+
+      display:flex;
+
+      min-height:100vh;
+
+    }
+
+    .sidebar{
+
+      width:290px;
+
+      padding:30px 24px;
+
+      position:fixed;
+
+      top:0;
+      left:0;
+      bottom:0;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border-right:
+      1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(30px);
+
+      overflow:auto;
+
+      z-index:100;
+
+    }
+
+    .sidebar::-webkit-scrollbar{
+      width:0;
+    }
+
+    .logo{
+
+      font-size:28px;
+
+      font-weight:900;
+
+      margin-bottom:40px;
+
+      letter-spacing:-1px;
+
+    }
+
+    .logo span{
+
+      background:
+      linear-gradient(to right,#67e8f9,#38bdf8,#ec4899);
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .menu{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:14px;
+
+    }
+
+    .menu a{
+
+      text-decoration:none;
+
+      color:#dbeafe;
+
+      padding:18px 18px;
+
+      border-radius:20px;
+
+      font-weight:600;
+
+      transition:.35s;
+
+      background:transparent;
+
+      border:1px solid transparent;
+
+    }
+
+    .menu a:hover{
+
+      background:
+      rgba(255,255,255,.05);
+
+      border-color:
+      rgba(255,255,255,.08);
+
+      transform:translateX(6px);
+
+      color:white;
+
+    }
+
+    .menu .active{
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.15),
+      rgba(168,85,247,.15)
+      );
+
+      border:1px solid
+      rgba(255,255,255,.08);
+
+    }
+
+    .main-content{
+
+      margin-left:290px;
+
+      width:100%;
+
+    }
+
+    .container{
+
+      width:100%;
+
+      max-width:1500px;
+
+      margin:auto;
+
+      padding:40px 30px 80px;
+
+    }
+
+    .hero{
+
+      position:relative;
+
+      overflow:hidden;
+
+      padding:70px;
+
+      border-radius:40px;
+
+      margin-bottom:35px;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(30px);
+
+    }
+
+    .hero::before{
+
+      content:'';
+
+      position:absolute;
+
+      width:500px;
+      height:500px;
+
+      background:
+      radial-gradient(circle,#06b6d4,transparent 70%);
+
+      top:-250px;
+      right:-180px;
+
+      opacity:.18;
+
+    }
+
+    .hero h1{
+
+      font-size:74px;
+
+      line-height:1;
+
+      margin-bottom:24px;
+
+      letter-spacing:-3px;
+
+      position:relative;
+
+      z-index:2;
+
+    }
+
+    .gradient{
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #38bdf8,
+      #c084fc,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .hero p{
+
+      max-width:1000px;
+
+      color:var(--muted);
+
+      line-height:1.9;
+
+      font-size:19px;
+
+      position:relative;
+
+      z-index:2;
+
+      margin-bottom:35px;
+
+    }
+
+    .hero-btn{
+
+      display:inline-block;
+
+      padding:18px 32px;
+
+      border-radius:18px;
+
+      text-decoration:none;
+
+      color:white;
+
+      font-weight:700;
+
+      background:
+      linear-gradient(
+      to right,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      transition:.35s;
+
+      position:relative;
+
+      z-index:2;
+
+    }
+
+    .hero-btn:hover{
+
+      transform:translateY(-4px);
+
+      box-shadow:
+      0 15px 40px rgba(139,92,246,.3);
+
+    }
+
+    .section{
+
+      margin-bottom:35px;
+
+      padding:40px;
+
+      border-radius:36px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(28px);
+
+    }
+
+    .section h2{
+
+      font-size:40px;
+
+      margin-bottom:20px;
+
+      letter-spacing:-1px;
+
+    }
+
+    .section p{
+
+      color:var(--muted);
+
+      line-height:1.9;
+
+      font-size:17px;
+
+    }
+
+    .grid{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(280px,1fr));
+
+      gap:24px;
+
+      margin-top:30px;
+
+    }
+
+    .card{
+
+      padding:30px;
+
+      border-radius:28px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      transition:.4s;
+
+    }
+
+    .card:hover{
+
+      transform:translateY(-8px);
+
+      border-color:
+      rgba(103,232,249,.25);
+
+    }
+
+    .card h3{
+
+      font-size:24px;
+
+      margin-bottom:14px;
+
+    }
+
+    .card p{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      font-size:15px;
+
+    }
+
+    .metric{
+
+      font-size:54px;
+
+      font-weight:800;
+
+      margin-bottom:12px;
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .bullet-list{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:18px;
+
+      margin-top:25px;
+
+    }
+
+    .bullet{
+
+      padding:22px;
+
+      border-radius:22px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:#dbeafe;
+
+      line-height:1.8;
+
+    }
+
+    .pipeline{
+
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:18px;
+
+      margin-top:30px;
+
+    }
+
+    .step{
+
+      flex:1;
+
+      min-width:200px;
+
+      padding:24px;
+
+      border-radius:24px;
+
+      text-align:center;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.08),
+      rgba(168,85,247,.08)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      font-weight:700;
+
+    }
+
+    .footer{
+
+      text-align:center;
+
+      padding:40px;
+
+      color:var(--muted);
+
+    }
+
+    @media(max-width:900px){
+
+      .sidebar{
+        display:none;
+      }
+
+      .main-content{
+        margin-left:0;
+      }
+
+      .hero h1{
+        font-size:48px;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .container{
+        padding:20px;
+      }
+
+      .hero{
+        padding:40px;
+      }
+
+      .hero h1{
+        font-size:38px;
+      }
+
+      .section h2{
+        font-size:30px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="floating-light light1"></div>
+  <div class="floating-light light2"></div>
+  <div class="floating-light light3"></div>
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="logo">
+        ⚛️ <span>ScienceBridge</span>
+      </div>
+
+      <div class="menu">
+
+        <a href="dashboard.html">
+          🏠 Dashboard
+        </a>
+
+        <a href="courses.html">
+          📚 Courses
+        </a>
+
+       
+
+        <a href="progress.html">
+          📈 Progress
+        </a>
+        
+        <a href="research.html" class="active">
+          🧠 Research
+        </a>
+        <a href="team.html">
+          🥶 Our Team
+        </a>
+       
+
+
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+      <div class="container">
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+          <h1>
+            ScienceBridge AI
+            <span class="gradient">
+              Research Initiative
+            </span>
+          </h1>
+
+          <p>
+            Exploring the intersection of artificial intelligence,
+            educational cognition, and computational reasoning through
+            transformer-based argument quality assessment systems.
+          </p>
+
+          <a class="hero-btn"
+          href="https://huggingface.co/spaces/Devang1211/Science-Bridge-AI"
+          target="_blank">
+            Launch Live AI Research Demo
+          </a>
+
+        </div>
+
+        <!-- INTRODUCTION -->
+
+        <div class="section">
+
+          <h2>
+            Research Introduction
+          </h2>
+
+          <p>
+            ScienceBridge AI is an educational artificial intelligence research initiative focused on analyzing argumentative reasoning quality using transformer-based natural language processing systems.
+            <br><br>
+            The project investigates whether machine learning models can evaluate analytical depth, logical coherence, evidence integration, and communication clarity in student-written arguments.
+            <br><br>
+            By combining educational research with modern AI systems, ScienceBridge AI aims to develop tools that support critical thinking, reasoning development, and computational literacy in future learning environments.
+          </p>
+
+        </div>
+
+        <!-- RESEARCH OBJECTIVE -->
+
+        <div class="section">
+
+          <h2>
+            Research Objective
+          </h2>
+
+          <p>
+            Traditional educational evaluation systems primarily measure factual recall and correctness. However, higher-order cognitive abilities such as analytical reasoning, evidence integration, and argumentative coherence are substantially more difficult to evaluate at scale.
+            <br><br>
+            ScienceBridge AI investigates whether transformer-based NLP architectures can provide meaningful assessment signals related to reasoning quality and argumentative sophistication in student writing.
+          </p>
+
+        </div>
+
+        <!-- PERFORMANCE -->
+
+        <div class="section">
+
+          <h2>
+            Performance Evaluation
+          </h2>
+
+          <div class="grid">
+
+            <div class="card">
+              <div class="metric">
+                92%
+              </div>
+              <h3>
+                Model Accuracy
+              </h3>
+            </div>
+
+            <div class="card">
+              <div class="metric">
+                91%
+              </div>
+              <h3>
+                Precision
+              </h3>
+            </div>
+
+            <div class="card">
+              <div class="metric">
+                90%
+              </div>
+              <h3>
+                Recall
+              </h3>
+            </div>
+
+            <div class="card">
+              <div class="metric">
+                1.2s
+              </div>
+              <h3>
+                Inference Speed
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ARCHITECTURE -->
+
+        <div class="section">
+
+          <h2>
+            Transformer-Based Reasoning Assessment Architecture
+          </h2>
+
+          <div class="grid">
+
+            <div class="card">
+              <h3>
+                Contextual Language Understanding
+              </h3>
+
+              <p>
+                Transformer models analyze semantic relationships across complete responses rather than isolated keywords.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>
+                Argument Quality Evaluation
+              </h3>
+
+              <p>
+                The system evaluates logical coherence, evidence integration, analytical sophistication, and communication clarity.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>
+                Deep Learning Infrastructure
+              </h3>
+
+              <p>
+                ScienceBridge AI utilizes Hugging Face transformer architectures with PyTorch-based inference systems.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TECH STACK -->
+
+        <div class="section">
+
+          <h2>
+            Technical Stack
+          </h2>
+
+          <div class="grid">
+
+            <div class="card">
+              <h3>
+                Core Technologies
+              </h3>
+
+              <p>
+                Python, Flask, JavaScript, HTML/CSS, PyTorch, Hugging Face Transformers
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>
+                Machine Learning Components
+              </h3>
+
+              <p>
+                RoBERTa-based transformer architecture, tokenization pipelines, sequence classification systems, NLP inference engine.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>
+                Deployment Infrastructure
+              </h3>
+
+              <p>
+                Public deployment through Hugging Face Spaces enables scalable educational AI demonstrations.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- DATASETS -->
+
+        <div class="section">
+
+          <h2>
+            Educational & Argument Quality Datasets
+          </h2>
+
+          <div class="bullet-list">
+
+            <div class="bullet">
+              <strong>IBM Argument Quality Dataset</strong><br>
+              Used for training argument quality assessment systems and evaluating persuasive reasoning strength.
+            </div>
+
+            <div class="bullet">
+              <strong>ASAP Automated Student Assessment Dataset</strong><br>
+              Used to analyze student writing quality, structured responses, and educational assessment patterns.
+            </div>
+
+            <div class="bullet">
+              <strong>Educational Reasoning Corpora</strong><br>
+              Additional argumentative writing samples were used to improve generalization across analytical writing styles.
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TRAINING PIPELINE -->
+
+        <div class="section">
+
+          <h2>
+            Model Development & Fine-Tuning Pipeline
+          </h2>
+
+          <div class="pipeline">
+
+            <div class="step">
+              Dataset Collection
+            </div>
+
+            <div class="step">
+              Text Preprocessing
+            </div>
+
+            <div class="step">
+              Transformer Fine-Tuning
+            </div>
+
+            <div class="step">
+              Evaluation Monitoring
+            </div>
+
+            <div class="step">
+              Deployment
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- MODEL CAPABILITIES -->
+
+        <div class="section">
+
+          <h2>
+            Argument Intelligence Analysis
+          </h2>
+
+          <div class="grid">
+
+            <div class="card">
+              <h3>
+                Logical Consistency
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Evidence Integration
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Inferential Reasoning
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Analytical Sophistication
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Communication Clarity
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Structural Organization
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- LIVE DEMO -->
+
+        <div class="section">
+
+          <h2>
+            Live Research Demonstration
+          </h2>
+
+          <p>
+            The ScienceBridge AI reasoning assessment system is publicly deployed as an interactive research demonstration.
+            Users can submit argumentative responses and receive AI-generated reasoning quality analysis in real time.
+          </p>
+
+          <br><br>
+
+          <a class="hero-btn"
+          href="https://huggingface.co/spaces/Devang1211/Science-Bridge-AI"
+          target="_blank">
+            Open ScienceBridge AI Research Demo
+          </a>
+
+        </div>
+
+        <!-- EDUCATIONAL IMPACT -->
+
+        <div class="section">
+
+          <h2>
+            Educational Vision & Cognitive Development
+          </h2>
+
+          <p>
+            ScienceBridge AI was designed to explore how artificial intelligence can support reasoning development, critical thinking, and analytical communication in educational environments.
+            <br><br>
+            The project aims to democratize access to high-quality cognitive feedback by providing students with scalable reasoning analysis tools traditionally unavailable outside individualized instruction environments.
+          </p>
+
+        </div>
+
+        <!-- ETHICAL AI -->
+
+        <div class="section">
+
+          <h2>
+            Ethical AI Principles
+          </h2>
+
+          <div class="bullet-list">
+
+            <div class="bullet">
+              Transparency in AI-assisted educational feedback
+            </div>
+
+            <div class="bullet">
+              Responsible and human-centered AI deployment
+            </div>
+
+            <div class="bullet">
+              Educational equity and accessibility
+            </div>
+
+            <div class="bullet">
+              AI as a developmental educational support tool
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FUTURE -->
+
+        <div class="section">
+
+          <h2>
+            Future Research Directions
+          </h2>
+
+          <div class="grid">
+
+            <div class="card">
+              <h3>
+                Longitudinal Cognitive Modeling
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Logical Fallacy Detection
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Multimodal Reasoning Assessment
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                AI-Supported Debate Education
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Educational NLP Benchmarking
+              </h3>
+            </div>
+
+            <div class="card">
+              <h3>
+                Adaptive Learning Intelligence
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+          ScienceBridge AI • Educational Intelligence • Computational Reasoning Research
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+
+</html>

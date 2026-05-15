@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ScienceBridge Initiative</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    :root{
+      --bg:#020617;
+      --card:rgba(255,255,255,.04);
+      --border:rgba(255,255,255,.08);
+      --text:#ffffff;
+      --muted:#94a3b8;
+      --cyan:#67e8f9;
+      --blue:#38bdf8;
+      --purple:#8b5cf6;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      color:white;
+      overflow-x:hidden;
+      position:relative;
+
+      background:
+      radial-gradient(circle at top,#111827 0%,#020617 45%,#000814 100%);
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:700px;
+      height:700px;
+      background:radial-gradient(circle,#06b6d4 0%,transparent 70%);
+      top:-250px;
+      left:-200px;
+      opacity:.18;
+      filter:blur(40px);
+      z-index:-2;
+      animation:float1 10s ease-in-out infinite;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:800px;
+      height:800px;
+      background:radial-gradient(circle,#8b5cf6 0%,transparent 70%);
+      bottom:-300px;
+      right:-200px;
+      opacity:.18;
+      filter:blur(40px);
+      z-index:-2;
+      animation:float2 12s ease-in-out infinite;
+    }
+
+    @keyframes float1{
+      0%{
+        transform:translateY(0px) translateX(0px);
+      }
+
+      50%{
+        transform:translateY(40px) translateX(20px);
+      }
+
+      100%{
+        transform:translateY(0px) translateX(0px);
+      }
+    }
+
+    @keyframes float2{
+      0%{
+        transform:translateY(0px) translateX(0px);
+      }
+
+      50%{
+        transform:translateY(-30px) translateX(-20px);
+      }
+
+      100%{
+        transform:translateY(0px) translateX(0px);
+      }
+    }
+
+    .ambient-light{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(120px);
+      pointer-events:none;
+      z-index:-3;
+      opacity:.35;
+      animation:floatAmbient 14s ease-in-out infinite;
+    }
+
+    .light1{
+      width:500px;
+      height:500px;
+      background:#06b6d4;
+      top:10%;
+      left:-10%;
+    }
+
+    .light2{
+      width:600px;
+      height:600px;
+      background:#8b5cf6;
+      top:20%;
+      right:-15%;
+      animation-delay:2s;
+    }
+
+    .light3{
+      width:450px;
+      height:450px;
+      background:#2563eb;
+      bottom:0;
+      left:20%;
+      animation-delay:4s;
+    }
+
+    .light4{
+      width:500px;
+      height:500px;
+      background:#0ea5e9;
+      bottom:-10%;
+      right:10%;
+      animation-delay:6s;
+    }
+
+    @keyframes floatAmbient{
+
+      0%{
+        transform:translate(0,0) scale(1);
+      }
+
+      25%{
+        transform:translate(40px,-30px) scale(1.05);
+      }
+
+      50%{
+        transform:translate(-30px,20px) scale(0.95);
+      }
+
+      75%{
+        transform:translate(20px,40px) scale(1.03);
+      }
+
+      100%{
+        transform:translate(0,0) scale(1);
+      }
+
+    }
+
+    .noise{
+      position:fixed;
+      inset:0;
+      background-image:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+      opacity:.04;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .container{
+      width:90%;
+      max-width:1280px;
+      margin:auto;
+    }
+
+    nav{
+      position:sticky;
+      top:20px;
+      z-index:1000;
+
+      width:90%;
+      max-width:1280px;
+
+      margin:20px auto;
+      padding:18px 28px;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      background:rgba(255,255,255,0.04);
+
+      backdrop-filter:blur(20px);
+
+      border:1px solid rgba(139,92,246,.25);
+
+      border-radius:26px;
+
+      box-shadow:
+      0 0 0 1px rgba(255,255,255,.04),
+      0 10px 50px rgba(139,92,246,.15),
+      inset 0 0 40px rgba(255,255,255,.02);
+
+      transition:.4s;
+    }
+
+    nav.scrolled{
+      background:rgba(2,6,23,.78);
+
+      border-color:rgba(56,189,248,.3);
+
+      box-shadow:
+      0 20px 50px rgba(0,0,0,.4),
+      0 0 40px rgba(56,189,248,.08);
+
+      backdrop-filter:blur(30px);
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      font-size:20px;
+      letter-spacing:.3px;
+    }
+
+    .logo span{
+      color:#38bdf8;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:35px;
+      align-items:center;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:#cbd5e1;
+      transition:.3s;
+      font-size:15px;
+      position:relative;
+    }
+
+    .nav-links a::after{
+      content:'';
+      position:absolute;
+      left:0;
+      bottom:-8px;
+      width:0;
+      height:2px;
+      background:linear-gradient(to right,#38bdf8,#8b5cf6);
+      transition:.3s;
+    }
+
+    .nav-links a:hover{
+      color:#38bdf8;
+    }
+
+    .nav-links a:hover::after{
+      width:100%;
+    }
+
+    .btn{
+      padding:14px 28px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      color:white;
+
+      background:
+      linear-gradient(135deg,#06b6d4,#8b5cf6);
+
+      box-shadow:
+      0 10px 30px rgba(6,182,212,.35);
+
+      transition:.4s;
+    }
+
+    .btn:hover{
+      transform:translateY(-4px) scale(1.03);
+
+      box-shadow:
+      0 15px 40px rgba(139,92,246,.45);
+    }
+
+    .secondary-btn{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1);
+      box-shadow:none;
+    }
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      padding-top:120px;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+
+      width:900px;
+      height:900px;
+
+      background:
+      radial-gradient(circle,
+      rgba(6,182,212,.15) 0%,
+      transparent 70%);
+
+      top:-300px;
+      left:-200px;
+
+      filter:blur(100px);
+
+      z-index:-1;
+    }
+
+    .hero::after{
+      content:'';
+
+      position:absolute;
+
+      width:800px;
+      height:800px;
+
+      background:
+      radial-gradient(circle,
+      rgba(139,92,246,.16) 0%,
+      transparent 70%);
+
+      bottom:-300px;
+      right:-200px;
+
+      filter:blur(100px);
+
+      z-index:-1;
+    }
+
+    .hero-content{
+      max-width:980px;
+      animation:fadeUp 1.2s ease;
+      transition:transform .15s linear;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:10px 20px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:#cbd5e1;
+      margin-bottom:30px;
+      font-size:14px;
+      letter-spacing:.5px;
+    }
+
+    .hero h1{
+      font-size:82px;
+      line-height:1.02;
+      font-weight:900;
+      margin-bottom:30px;
+      letter-spacing:-3px;
+    }
+
+    .gradient-text{
+      background:linear-gradient(to right,#67e8f9,#38bdf8,#a78bfa);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero p{
+      color:#94a3b8;
+      font-size:20px;
+      line-height:1.9;
+      max-width:820px;
+      margin:auto;
+      margin-bottom:40px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .hero-mini-stats{
+      margin-top:35px;
+      display:flex;
+      justify-content:center;
+      gap:35px;
+      flex-wrap:wrap;
+    }
+
+    .hero-mini-stats div{
+      color:#cbd5e1;
+      font-size:14px;
+    }
+
+    .hero-mini-stats strong{
+      color:#67e8f9;
+      margin-right:8px;
+    }
+
+    .stats{
+      margin-top:80px;
+
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+
+      gap:25px;
+
+      background:rgba(255,255,255,.03);
+
+      padding:35px;
+      border-radius:30px;
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(14px);
+
+      transform-style:preserve-3d;
+    }
+
+    .stat-card{
+      padding:35px;
+      border-radius:22px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      transition:.4s;
+    }
+
+    .stat-card:hover{
+      transform:translateY(-10px) rotateX(6deg);
+
+      box-shadow:
+      0 20px 50px rgba(59,130,246,.15);
+    }
+
+    .stat-card h2{
+      font-size:42px;
+      margin-bottom:10px;
+      color:#67e8f9;
+    }
+
+    .stat-card p{
+      color:#94a3b8;
+      font-size:15px;
+    }
+
+    section{
+      padding:120px 0;
+      position:relative;
+    }
+
+    .section-title{
+      font-size:64px;
+      line-height:1.08;
+      font-weight:900;
+      margin-bottom:22px;
+      letter-spacing:-2px;
+    }
+
+    .section-desc{
+      max-width:760px;
+      color:#94a3b8;
+      line-height:1.9;
+      font-size:18px;
+      margin-bottom:60px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:28px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      padding:38px;
+      border-radius:26px;
+      backdrop-filter:blur(14px);
+      transition:.45s;
+      transform-style:preserve-3d;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:'';
+      position:absolute;
+      width:200px;
+      height:200px;
+      background:radial-gradient(circle,#0ea5e9,transparent 70%);
+      top:-120px;
+      right:-120px;
+      opacity:.2;
+    }
+
+    .card::after{
+      content:'';
+      position:absolute;
+      inset:0;
+
+      background:linear-gradient(
+      135deg,
+      rgba(6,182,212,.05),
+      rgba(139,92,246,.03)
+      );
+
+      opacity:0;
+      transition:.5s;
+    }
+
+    .card:hover::after{
+      opacity:1;
+    }
+
+    .card:hover{
+      transform:translateY(-12px) rotateX(8deg) rotateY(-5deg);
+
+      box-shadow:
+      0 25px 50px rgba(14,165,233,.18);
+
+      border-color:rgba(56,189,248,.4);
+    }
+
+    .icon{
+      width:72px;
+      height:72px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.12);
+
+      backdrop-filter:blur(14px);
+
+      box-shadow:
+      0 10px 30px rgba(6,182,212,.18),
+      inset 0 0 25px rgba(255,255,255,.03);
+
+      font-size:34px;
+      margin-bottom:25px;
+    }
+
+    .card h3{
+      font-size:28px;
+      margin-bottom:18px;
+      line-height:1.2;
+    }
+
+    .card p{
+      color:#94a3b8;
+      line-height:1.8;
+      font-size:15px;
+    }
+
+    .research-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      align-items:center;
+    }
+
+    .research-box{
+      background:rgba(255,255,255,.03);
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+      padding:40px;
+      backdrop-filter:blur(16px);
+    }
+
+    .bar{
+      margin:30px 0;
+    }
+
+    .bar-title{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:12px;
+      color:#e2e8f0;
+      font-size:15px;
+    }
+
+    .progress{
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      background:#1e293b;
+      overflow:hidden;
+    }
+
+    .progress span{
+      display:block;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(to right,#06b6d4,#8b5cf6);
+    }
+
+    .research-list{
+      margin-top:30px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .research-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#cbd5e1;
+    }
+
+    .research-dot{
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      background:linear-gradient(to right,#06b6d4,#8b5cf6);
+      box-shadow:0 0 15px rgba(56,189,248,.7);
+    }
+
+    .impact-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:30px;
+      margin-top:50px;
+    }
+
+    .impact-card{
+      padding:40px;
+      border-radius:28px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+      transition:.4s;
+    }
+
+    .impact-card:hover{
+      transform:translateY(-10px);
+
+      border-color:rgba(56,189,248,.3);
+
+      box-shadow:
+      0 25px 50px rgba(14,165,233,.15);
+    }
+
+    .impact-card h3{
+      font-size:48px;
+      color:#67e8f9;
+      margin-bottom:14px;
+    }
+
+    .impact-card p{
+      color:#94a3b8;
+      line-height:1.8;
+    }
+
+    .backend-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:28px;
+      margin-top:60px;
+    }
+
+    .backend-card{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:35px;
+      backdrop-filter:blur(14px);
+      transition:.4s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .backend-card:hover{
+      transform:translateY(-12px);
+
+      border-color:rgba(139,92,246,.3);
+
+      box-shadow:
+      0 25px 50px rgba(139,92,246,.18);
+    }
+
+    .backend-card::before{
+      content:'';
+      position:absolute;
+      width:220px;
+      height:220px;
+      background:radial-gradient(circle,#8b5cf6,transparent 70%);
+      top:-130px;
+      right:-130px;
+      opacity:.16;
+    }
+
+    .backend-card h3{
+      font-size:28px;
+      margin-bottom:18px;
+    }
+
+    .backend-card p{
+      color:#94a3b8;
+      line-height:1.8;
+    }
+
+    #ecosystem-preview{
+      position:relative;
+    }
+
+    .ecosystem-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:28px;
+    }
+
+    .ecosystem-card{
+      position:relative;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:30px;
+      padding:40px;
+      overflow:hidden;
+      backdrop-filter:blur(16px);
+      transition:.45s;
+    }
+
+    .ecosystem-card:hover{
+      transform:translateY(-12px);
+
+      border-color:rgba(56,189,248,.35);
+
+      box-shadow:
+      0 25px 50px rgba(14,165,233,.15);
+    }
+
+    .large-card{
+      grid-column:span 2;
+    }
+
+    .mini-badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+
+      background:rgba(6,182,212,.1);
+
+      border:1px solid rgba(6,182,212,.2);
+
+      color:#67e8f9;
+
+      font-size:12px;
+
+      margin-bottom:20px;
+
+      letter-spacing:1px;
+    }
+
+    .ecosystem-card h3{
+      font-size:34px;
+      margin-bottom:18px;
+    }
+
+    .ecosystem-card p{
+      color:#94a3b8;
+      line-height:1.8;
+      max-width:700px;
+    }
+
+    .dashboard-preview{
+      margin-top:35px;
+
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+
+      gap:20px;
+    }
+
+    .dash-box{
+      padding:28px;
+      border-radius:22px;
+
+      background:rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      text-align:center;
+    }
+
+    .dash-box span{
+      display:block;
+      color:#94a3b8;
+      margin-bottom:12px;
+      font-size:14px;
+    }
+
+    .dash-box strong{
+      font-size:28px;
+      color:#67e8f9;
+    }
+
+    #ecosystem-preview::before{
+      content:'';
+
+      position:absolute;
+
+      width:800px;
+      height:800px;
+
+      background:
+      radial-gradient(circle,#06b6d4 0%,transparent 70%);
+
+      opacity:.08;
+
+      left:-20%;
+      top:10%;
+
+      filter:blur(60px);
+
+      pointer-events:none;
+    }
+
+    .timeline{
+      margin-top:70px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:20px;
+    }
+
+    .timeline-step{
+      padding:28px;
+      border-radius:24px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      position:relative;
+    }
+
+    .timeline-step span{
+      display:inline-flex;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(to right,#06b6d4,#8b5cf6);
+      margin-bottom:18px;
+      font-weight:800;
+    }
+
+    .timeline-step h4{
+      font-size:22px;
+      margin-bottom:14px;
+    }
+
+    .timeline-step p{
+      color:#94a3b8;
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    .cta{
+      text-align:center;
+      padding:90px 40px;
+      border-radius:40px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .cta::before{
+      content:'';
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:radial-gradient(circle,#8b5cf6,transparent 70%);
+      opacity:.2;
+      bottom:-250px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+
+    .cta h2{
+      font-size:72px;
+      line-height:1.1;
+      margin-bottom:25px;
+      position:relative;
+      z-index:1;
+      letter-spacing:-2px;
+    }
+
+    .cta p{
+      color:#94a3b8;
+      font-size:20px;
+      max-width:700px;
+      margin:auto;
+      margin-bottom:35px;
+      position:relative;
+      z-index:1;
+      line-height:1.8;
+    }
+
+    footer{
+      padding:60px 0;
+      color:#64748b;
+      text-align:center;
+      font-size:15px;
+      border-top:1px solid rgba(255,255,255,.05);
+      margin-top:80px;
+    }
+
+    @keyframes fadeUp{
+
+      from{
+        opacity:0;
+        transform:translateY(40px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+
+    }
+
+    .loader{
+      position:fixed;
+      inset:0;
+      background:#020617;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      z-index:999999;
+      transition:1s ease;
+    }
+
+    .loader.hidden{
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .loader-ring{
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      border:4px solid rgba(255,255,255,.08);
+      border-top:4px solid #38bdf8;
+      animation:spin 1s linear infinite;
+    }
+
+    .loader h2{
+      margin-top:25px;
+      font-size:18px;
+      letter-spacing:2px;
+      color:#cbd5e1;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    #particles{
+      position:fixed;
+      inset:0;
+      z-index:-4;
+      overflow:hidden;
+      pointer-events:none;
+    }
+
+    .particle{
+      position:absolute;
+      width:3px;
+      height:3px;
+      border-radius:50%;
+      background:white;
+      opacity:.2;
+      animation:floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle{
+
+      from{
+        transform:translateY(100vh);
+      }
+
+      to{
+        transform:translateY(-100vh);
+      }
+
+    }
+
+    .cursor-glow{
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      position:fixed;
+
+      background:
+      radial-gradient(circle,
+      rgba(56,189,248,.18),
+      transparent 70%);
+
+      pointer-events:none;
+      z-index:-2;
+
+      transform:translate(-50%,-50%);
+
+      transition:transform .08s linear;
+    }
+
+    .grid-overlay{
+      position:fixed;
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+
+      background-size:80px 80px;
+
+      mask-image:radial-gradient(circle at center, black 30%, transparent 90%);
+
+      z-index:-5;
+
+      pointer-events:none;
+    }
+
+    .orb{
+      position:absolute;
+      border-radius:50%;
+      filter:blur(80px);
+      opacity:.18;
+      animation:orbFloat 14s ease-in-out infinite;
+    }
+
+    .orb1{
+      width:300px;
+      height:300px;
+      background:#06b6d4;
+      top:20%;
+      left:10%;
+    }
+
+    .orb2{
+      width:350px;
+      height:350px;
+      background:#8b5cf6;
+      top:60%;
+      right:10%;
+      animation-delay:3s;
+    }
+
+    @keyframes orbFloat{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-40px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(60px);
+      transition:1s ease;
+    }
+
+    .reveal.active{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .typing{
+      border-right:2px solid #38bdf8;
+      white-space:nowrap;
+      overflow:hidden;
+      animation:blink .8s infinite;
+    }
+
+    @keyframes blink{
+
+      50%{
+        border-color:transparent;
+      }
+
+    }
+
+    .menu-toggle{
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      cursor:pointer;
+    }
+
+    .menu-toggle span{
+      width:28px;
+      height:3px;
+      background:white;
+      border-radius:999px;
+    }
+
+    @media(max-width:1100px){
+
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .backend-grid{
+        grid-template-columns:1fr;
+      }
+
+      .impact-grid{
+        grid-template-columns:1fr;
+      }
+
+      .timeline{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .dashboard-preview{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+    @media(max-width:900px){
+
+      .hero h1{
+        font-size:54px;
+      }
+
+      .section-title{
+        font-size:46px;
+      }
+
+      .cta h2{
+        font-size:50px;
+      }
+
+      .research-grid{
+        grid-template-columns:1fr;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .ecosystem-grid{
+        grid-template-columns:1fr;
+      }
+
+      .large-card{
+        grid-column:span 1;
+      }
+
+      .dashboard-preview{
+        grid-template-columns:1fr;
+      }
+
+      .menu-toggle{
+        display:flex;
+      }
+
+      .nav-links{
+        position:absolute;
+        top:90px;
+        left:0;
+        right:0;
+
+        background:rgba(2,6,23,.95);
+
+        border:1px solid rgba(255,255,255,.08);
+
+        backdrop-filter:blur(20px);
+
+        border-radius:22px;
+
+        padding:30px;
+
+        flex-direction:column;
+
+        display:none;
+      }
+
+      .nav-links.active{
+        display:flex;
+      }
+
+      .timeline{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .hero h1{
+        font-size:40px;
+        letter-spacing:-1px;
+      }
+
+      .hero p{
+        font-size:16px;
+      }
+
+      .section-title{
+        font-size:34px;
+      }
+
+      .cta h2{
+        font-size:38px;
+      }
+
+      .hero-buttons{
+        flex-direction:column;
+      }
+
+      .btn{
+        width:100%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- LOADER -->
+
+  <div class="loader" id="loader">
+
+    <div class="loader-ring"></div>
+
+    <h2>SCIENCEBRIDGE INITIATIVE</h2>
+
+  </div>
+
+  <!-- PARTICLES -->
+
+  <div id="particles"></div>
+
+  <!-- CURSOR -->
+
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- GRID -->
+
+  <div class="grid-overlay"></div>
+
+  <!-- FLOATING ORBS -->
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <!-- AMBIENT LIGHTS -->
+
+  <div class="ambient-light light1"></div>
+  <div class="ambient-light light2"></div>
+  <div class="ambient-light light3"></div>
+  <div class="ambient-light light4"></div>
+
+  <div class="noise"></div>
+
+  <!-- NAVBAR -->
+
+  <nav id="navbar">
+
+    <div class="logo">
+      ⚛️ <span>ScienceBridge</span>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+    <div class="nav-links" id="navLinks">
+
+      <a href="#mission">Mission</a>
+
+      <a href="#platform">Platform</a>
+
+      <a href="#research">Research</a>
+
+      <a href="#impact">Impact</a>
+
+      <a href="#backend-ecosystem">Infrastructure</a>
+
+      <a href="#ecosystem-preview">Dashboard</a>
+
+    </div>
+
+    <a href="signup.html">
+      <button class="btn">
+        Join Free
+      </button>
+    </a>
+
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="container hero-content">
+
+      <div class="badge">
+        ✨ A student-led AI & education research initiative
+      </div>
+
+      <h1>
+
+        The future of
+
+        <span class="gradient-text typing" id="typingText">
+          scientific thinking
+        </span>
+
+        belongs to every student.
+
+      </h1>
+
+      <p>
+
+        ScienceBridge is building a next-generation learning ecosystem where
+        AI tutoring, coding education, reasoning analysis, and research-grade
+        analytics become accessible to every student — regardless of geography,
+        privilege, or financial background.
+
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="signup.html">
+          <button class="btn">
+            Start Learning Free
+          </button>
+        </a>
+
+        <a href="research.html">
+          <button class="btn secondary-btn">
+            Explore Research
+          </button>
+        </a>
+
+      </div>
+
+      <div class="hero-mini-stats">
+
+        <div>
+          <strong>24/7</strong> AI Learning Support
+        </div>
+
+        <div>
+          <strong>100%</strong> Free Student Access
+        </div>
+
+        <div>
+          <strong>Real-Time</strong> Research Analytics
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <h2>12,400+</h2>
+
+          <p>Students reached globally</p>
+
+        </div>
+
+        <div class="stat-card">
+
+          <h2>47</h2>
+
+          <p>Schools and communities visited</p>
+
+        </div>
+
+        <div class="stat-card">
+
+          <h2>94%</h2>
+
+          <p>Reasoning improvement recorded</p>
+
+        </div>
+
+        <div class="stat-card">
+
+          <h2>1.8M+</h2>
+
+          <p>AI learning interactions processed</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MISSION -->
+
+  <section id="mission" class="reveal">
+
+    <div class="container">
+
+      <div style="text-align:center;">
+
+        <div class="badge">
+          🌍 Our Mission
+        </div>
+
+        <h2 class="section-title">
+
+          Technology and
+
+          <span class="gradient-text">
+            scientific thinking
+          </span>
+
+          should empower every student.
+
+        </h2>
+
+        <p class="section-desc" style="margin:auto;">
+
+          ScienceBridge Initiative exists to democratize advanced education.
+          We believe the next generation of researchers, engineers,
+          founders, and innovators should not be limited by access,
+          income, or geography.
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PLATFORM -->
+
+  <section id="platform" class="reveal">
+
+    <div class="container">
+
+      <h2 class="section-title">
+
+        An ecosystem built for
+
+        <span class="gradient-text">
+          curious minds.
+        </span>
+
+      </h2>
+
+      <p class="section-desc">
+
+        Every component — from AI tutors to intelligent dashboards —
+        is engineered to make rigorous thinking feel immersive,
+        cinematic, and genuinely exciting for students.
+
+      </p>
+
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="icon">🤖</div>
+
+          <h3>AI Learning Assistants</h3>
+
+          <p>
+
+            Personalized tutors for Python, JavaScript,
+            C++, machine learning, and AI fundamentals
+            with contextual explanations and debugging.
+
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="icon">💻</div>
+
+          <h3>Interactive Coding Playground</h3>
+
+          <p>
+
+            Write, execute, and experiment with real code
+            inside futuristic browser-based environments
+            powered by intelligent assistance.
+
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="icon">🧠</div>
+
+          <h3>Thinking Analyzer</h3>
+
+          <p>
+
+            Machine learning systems analyze evidence-based
+            reasoning, logic quality, confidence patterns,
+            and critical thinking development.
+
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="icon">📚</div>
+
+          <h3>Adaptive Curriculum</h3>
+
+          <p>
+
+            AI-driven learning paths adjust difficulty,
+            recommend projects, and personalize education
+            based on real student behavior.
+
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="icon">🌐</div>
+
+          <h3>Global Collaboration</h3>
+
+          <p>
+
+            Students collaborate across schools and regions
+            through projects, challenges, research modules,
+            and innovation programs.
+
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="icon">🔬</div>
+
+          <h3>Research Infrastructure</h3>
+
+          <p>
+
+            Backend systems transform anonymous learning
+            data into insights about cognition,
+            education, and scientific reasoning.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- RESEARCH -->
+
+  <section id="research" class="reveal">
+
+    <div class="container research-grid">
+
+      <div>
+
+        <div class="badge">
+          🧪 Research Engine
+        </div>
+
+        <h2 class="section-title">
+
+          We measure how students
+
+          <span class="gradient-text">
+            actually think.
+          </span>
+
+        </h2>
+
+        <p class="section-desc">
+
+          ScienceBridge combines education technology with
+          cognitive research to understand how students solve
+          problems, build confidence, and develop reasoning.
+
+        </p>
+
+      </div>
+
+      <div class="research-box">
+
+        <div class="bar">
+
+          <div class="bar-title">
+
+            <span>Logical reasoning growth</span>
+
+            <span>78%</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:78%"></span>
+          </div>
+
+        </div>
+
+        <div class="bar">
+
+          <div class="bar-title">
+
+            <span>Scientific confidence</span>
+
+            <span>91%</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:91%"></span>
+          </div>
+
+        </div>
+
+        <div class="bar">
+
+          <div class="bar-title">
+
+            <span>Problem solving consistency</span>
+
+            <span>84%</span>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:84%"></span>
+          </div>
+
+        </div>
+
+        <div class="research-list">
+
+          <div class="research-item">
+            <div class="research-dot"></div>
+            Evidence-based thinking analytics
+          </div>
+
+          <div class="research-item">
+            <div class="research-dot"></div>
+            Cognitive pattern recognition systems
+          </div>
+
+          <div class="research-item">
+            <div class="research-dot"></div>
+            AI-powered educational insights
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- IMPACT -->
+
+  <section id="impact" class="reveal">
+
+    <div class="container">
+
+      <div style="text-align:center;">
+
+        <div class="badge">
+          📊 Real Student Impact
+        </div>
+
+        <h2 class="section-title">
+
+          Empowering students
+
+          <span class="gradient-text">
+            equally.
+          </span>
+
+        </h2>
+
+        <p class="section-desc" style="margin:auto;">
+
+          Our mission is not just technology —
+          it is educational equity at scale.
+
+        </p>
+
+      </div>
+
+      <div class="impact-grid">
+
+        <div class="impact-card">
+
+          <h3>100%</h3>
+
+          <p>
+
+            Free access for students with no hidden barriers,
+            subscriptions, or locked learning systems.
+
+          </p>
+
+        </div>
+
+        <div class="impact-card">
+
+          <h3>24/7</h3>
+
+          <p>
+
+            AI tutors and intelligent assistance available
+            continuously for coding and reasoning support.
+
+          </p>
+
+        </div>
+
+        <div class="impact-card">
+
+          <h3>Global</h3>
+
+          <p>
+
+            Built for students from underserved schools,
+            rural communities, and emerging regions.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- BACKEND -->
+
+  <section id="backend-ecosystem" class="reveal">
+
+    <div class="container">
+
+      <div style="text-align:center; margin-bottom:70px;">
+
+        <div class="badge">
+          ⚡ Next-Generation AI Infrastructure
+        </div>
+
+        <h2 class="section-title">
+
+          A complete
+
+          <span class="gradient-text">
+            AI-powered backend ecosystem.
+          </span>
+
+        </h2>
+
+        <p class="section-desc" style="margin:auto;">
+
+          Enterprise-grade infrastructure powering analytics,
+          AI tutoring, adaptive learning, research systems,
+          and scalable student experiences.
+
+        </p>
+
+      </div>
+
+      <div class="backend-grid">
+
+        <div class="backend-card">
+
+          <div class="icon">☁️</div>
+
+          <h3>Cloud Architecture</h3>
+
+          <p>
+
+            Distributed infrastructure designed for high-scale
+            student learning experiences with real-time sync
+            and global accessibility.
+
+          </p>
+
+        </div>
+
+        <div class="backend-card">
+
+          <div class="icon">🧬</div>
+
+          <h3>Machine Learning Engine</h3>
+
+          <p>
+
+            Intelligent systems analyze learning behavior,
+            adapt recommendations, and personalize
+            educational experiences.
+
+          </p>
+
+        </div>
+
+        <div class="backend-card">
+
+          <div class="icon">🔐</div>
+
+          <h3>Privacy & Security</h3>
+
+          <p>
+
+            Student data protection, encrypted infrastructure,
+            and research-safe analytics pipelines built
+            with privacy-first principles.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- LEARNING ECOSYSTEM -->
+
+  <section id="ecosystem-preview" class="reveal">
+
+    <div class="container">
+
+      <div style="text-align:center; margin-bottom:70px;">
+
+        <div class="badge">
+          🚀 Student Experience Platform
+        </div>
+
+        <h2 class="section-title">
+
+          A complete
+
+          <span class="gradient-text">
+            learning ecosystem.
+          </span>
+
+        </h2>
+
+        <p class="section-desc" style="margin:auto;">
+
+          ScienceBridge combines AI tutoring,
+          coding education, scientific reasoning,
+          research systems, and cinematic progress
+          tracking into one immersive platform.
+
+        </p>
+
+      </div>
+
+      <div class="ecosystem-grid">
+
+        <div class="ecosystem-card large-card">
+
+          <div class="mini-badge">
+            AI POWERED
+          </div>
+
+          <h3>
+            Personalized Learning Dashboard
+          </h3>
+
+          <p>
+
+            Students unlock coding paths, reasoning modules,
+            scientific thinking exercises, streak systems,
+            AI recommendations, and dynamic progress analytics.
+
+          </p>
+
+          <div class="dashboard-preview">
+
+            <div class="dash-box">
+
+              <span>Python Mastery</span>
+
+              <strong>82%</strong>
+
+            </div>
+
+            <div class="dash-box">
+
+              <span>Reasoning Score</span>
+
+              <strong>91%</strong>
+
+            </div>
+
+            <div class="dash-box">
+
+              <span>Daily Streak</span>
+
+              <strong>27 Days</strong>
+
+            </div>
+
+            <div class="dash-box">
+
+              <span>Projects Built</span>
+
+              <strong>46</strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="ecosystem-card">
+
+          <div class="icon">🧠</div>
+
+          <h3>AI Tutor</h3>
+
+          <p>
+
+            Real-time coding explanations,
+            debugging help, reasoning guidance,
+            and concept simplification.
+
+          </p>
+
+        </div>
+
+        <div class="ecosystem-card">
+
+          <div class="icon">📈</div>
+
+          <h3>Progress Tracking</h3>
+
+          <p>
+
+            Cinematic reports, XP systems,
+            achievement analytics, growth insights,
+            and milestone tracking.
+
+          </p>
+
+        </div>
+
+        <div class="ecosystem-card">
+
+          <div class="icon">🏆</div>
+
+          <h3>Achievements</h3>
+
+          <p>
+
+            Unlock certificates, coding milestones,
+            challenge rewards, and innovation badges
+            as students progress.
+
+          </p>
+
+        </div>
+
+        <div class="ecosystem-card">
+
+          <div class="icon">💻</div>
+
+          <h3>Interactive Coding</h3>
+
+          <p>
+
+            Browser-based code playgrounds
+            with AI assistance, execution systems,
+            and collaborative projects.
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-step">
+
+          <span>1</span>
+
+          <h4>Learn</h4>
+
+          <p>
+
+            Students begin with adaptive AI-powered
+            coding and reasoning lessons.
+
+          </p>
+
+        </div>
+
+        <div class="timeline-step">
+
+          <span>2</span>
+
+          <h4>Practice</h4>
+
+          <p>
+
+            Interactive projects and coding environments
+            strengthen conceptual understanding.
+
+          </p>
+
+        </div>
+
+        <div class="timeline-step">
+
+          <span>3</span>
+
+          <h4>Analyze</h4>
+
+          <p>
+
+            Intelligent analytics measure logic,
+            consistency, and scientific thinking growth.
+
+          </p>
+
+        </div>
+
+        <div class="timeline-step">
+
+          <span>4</span>
+
+          <h4>Innovate</h4>
+
+          <p>
+
+            Students apply their skills through
+            real-world projects and research pathways.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+
+  <section class="reveal">
+
+    <div class="container">
+
+      <div class="cta">
+
+        <h2>
+
+          Build the future.<br>
+
+          <span class="gradient-text">
+            It starts with one student.
+          </span>
+
+        </h2>
+
+        <p>
+
+          Free forever. AI tutors, real projects,
+          research-grade analytics, coding systems,
+          and scientific thinking infrastructure
+          designed for the next generation.
+
+        </p>
+
+        
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    © 2026 ScienceBridge Initiative — student-led, future-built.
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    /* ========================================= */
+    /* LOADER */
+    /* ========================================= */
+
+    window.addEventListener('load', () => {
+
+      const loader = document.getElementById('loader');
+
+      setTimeout(() => {
+
+        loader.classList.add('hidden');
+
+      }, 1400);
+
+    });
+
+    /* ========================================= */
+    /* PARTICLES */
+    /* ========================================= */
+
+    const particles = document.getElementById('particles');
+
+    for(let i = 0; i < 140; i++){
+
+      const particle = document.createElement('div');
+
+      particle.classList.add('particle');
+
+      particle.style.left = Math.random() * 100 + 'vw';
+
+      particle.style.animationDuration =
+      (Math.random() * 10 + 10) + 's';
+
+      particle.style.opacity =
+      Math.random() * 0.5;
+
+      particle.style.transform =
+      `scale(${Math.random() * 2})`;
+
+      particles.appendChild(particle);
+
+    }
+
+    /* ========================================= */
+    /* CURSOR GLOW */
+    /* ========================================= */
+
+    const glow = document.getElementById('cursorGlow');
+
+    window.addEventListener('mousemove', (e) => {
+
+      glow.style.left = e.clientX + 'px';
+
+      glow.style.top = e.clientY + 'px';
+
+    });
+
+    /* ========================================= */
+    /* NAVBAR SCROLL */
+    /* ========================================= */
+
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+
+      if(window.scrollY > 50){
+
+        navbar.classList.add('scrolled');
+
+      }
+
+      else{
+
+        navbar.classList.remove('scrolled');
+
+      }
+
+    });
+
+    /* ========================================= */
+    /* MOBILE MENU */
+    /* ========================================= */
+
+    const menuToggle = document.getElementById('menuToggle');
+
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+
+      navLinks.classList.toggle('active');
+
+    });
+
+    /* ========================================= */
+    /* SCROLL REVEAL */
+    /* ========================================= */
+
+    const reveals =
+    document.querySelectorAll('.reveal');
+
+    window.addEventListener('scroll', revealSections);
+
+    function revealSections(){
+
+      reveals.forEach(section => {
+
+        const top =
+        section.getBoundingClientRect().top;
+
+        if(top < window.innerHeight - 100){
+
+          section.classList.add('active');
+
+        }
+
+      });
+
+    }
+
+    revealSections();
+
+    /* ========================================= */
+    /* CARD 3D EFFECT */
+    /* ========================================= */
+
+    const cards =
+    document.querySelectorAll(
+      '.card, .ecosystem-card, .backend-card, .impact-card'
+    );
+
+    cards.forEach(card => {
+
+      card.addEventListener('mousemove', (e) => {
+
+        const rect =
+        card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+
+        const y = e.clientY - rect.top;
+
+        const rotateY =
+        ((x / rect.width) - 0.5) * 16;
+
+        const rotateX =
+        ((y / rect.height) - 0.5) * -16;
+
+        card.style.transform = `
+          perspective(1200px)
+          rotateX(${rotateX}deg)
+          rotateY(${rotateY}deg)
+          translateY(-10px)
+          scale(1.02)
+        `;
+
+      });
+
+      card.addEventListener('mouseleave', () => {
+
+        card.style.transform = `
+          perspective(1200px)
+          rotateX(0deg)
+          rotateY(0deg)
+          translateY(0px)
+          scale(1)
+        `;
+
+      });
+
+    });
+
+    /* ========================================= */
+    /* HERO PARALLAX */
+    /* ========================================= */
+
+    const heroContent =
+    document.querySelector('.hero-content');
+
+    window.addEventListener('mousemove', (e) => {
+
+      const x =
+      (window.innerWidth / 2 - e.pageX) / 40;
+
+      const y =
+      (window.innerHeight / 2 - e.pageY) / 40;
+
+      heroContent.style.transform =
+      `translateX(${x}px) translateY(${y}px)`;
+
+    });
+
+    /* ========================================= */
+    /* TYPING EFFECT */
+    /* ========================================= */
+
+    const words = [
+
+      "scientific thinking",
+
+      "AI education",
+
+      "future researchers",
+
+      "student innovation",
+
+      "global intelligence"
+
+    ];
+
+    let i = 0;
+
+    const typingText =
+    document.getElementById('typingText');
+
+    setInterval(() => {
+
+      i = (i + 1) % words.length;
+
+      typingText.textContent = words[i];
+
+    }, 2500);
+
+  </script>
+
+</body>
+</html>

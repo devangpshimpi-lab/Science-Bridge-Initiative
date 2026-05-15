@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScienceBridge Pro • AIML Research Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --slate-100: #f8f9fb;
+            --mercedes-silver: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --accent-blue: #0071e3;
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --shadow-premium: 0 30px 60px rgba(0,0,0,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f4f9 100%);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 360px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            border-right: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-header { padding: 45px 35px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .sidebar-header h2 { 
+            font-weight: 800; letter-spacing: -1.2px; font-size: 24px; 
+            background: linear-gradient(to bottom right, #000, #555);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .curriculum-list { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+        .curriculum-list::-webkit-scrollbar { display: none; }
+        
+        .curriculum-item {
+            padding: 16px 20px; border-radius: 18px; margin-bottom: 10px;
+            cursor: pointer; transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex; align-items: center; gap: 18px; border: 1px solid transparent;
+        }
+
+        .curriculum-item:hover { background: rgba(0,0,0,0.04); transform: translateX(5px); }
+        .curriculum-item.active {
+            background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.05); transform: scale(1.02);
+        }
+
+        .item-icon {
+            width: 36px; height: 36px; border-radius: 12px;
+            background: #f1f4f9; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700;
+        }
+        .active .item-icon { background: var(--text-main); color: #fff; }
+
+        /* --- MAIN CONTENT --- */
+        .main-stage { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+        .top-nav {
+            padding: 25px 60px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .btn-premium {
+            padding: 12px 28px; border-radius: 50px; border: 1px solid var(--text-main);
+            background: transparent; font-weight: 600; cursor: pointer; transition: 0.4s;
+            text-decoration: none; color: var(--text-main); font-size: 13px;
+            display: inline-block;
+        }
+        .btn-premium:hover { background: var(--text-main); color: #fff; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+        .content-scroll { flex: 1; padding: 60px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+
+        .stage-box {
+            width: 100%; max-width: 1100px; background: #fff;
+            border-radius: 40px; box-shadow: var(--shadow-premium);
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-player-area { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .info-panel { padding: 50px; background: #fff; }
+        .step-tag { text-transform: uppercase; letter-spacing: 2.5px; font-size: 11px; font-weight: 800; color: var(--accent-blue); margin-bottom: 15px; display: block; }
+        .step-title { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 15px; color: #000; }
+        .step-desc { color: var(--text-secondary); line-height: 1.8; font-size: 19px; max-width: 800px; }
+
+        /* --- QUIZ UI --- */
+        .quiz-view { display: none; padding: 60px; width: 100%; max-width: 900px; background: #fff; border-radius: 40px; box-shadow: var(--shadow-premium); animation: slideUp 0.7s ease; }
+        .q-row { margin-bottom: 40px; }
+        .option-btn {
+            display: block; padding: 22px 28px; background: #f1f4f9; border-radius: 20px;
+            margin-top: 15px; cursor: pointer; border: 2.5px solid transparent; 
+            transition: 0.3s; font-size: 17px; font-weight: 500; color: #1d1d1f;
+        }
+        .option-btn:hover { background: #e2e8f0; transform: translateY(-3px); }
+        .option-btn.selected { background: #fff; border-color: var(--accent-blue); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.1); color: var(--accent-blue); }
+        .correct { border-color: #34c759 !important; background: #f2fff5 !important; color: #1a7f37 !important; }
+        .wrong { border-color: #ff3b30 !important; background: #fff5f5 !important; color: #c9342b !important; }
+
+        /* --- OVERLAYS --- */
+        #grad-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 2000;
+            display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        #toast {
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%) translateY(150px);
+            background: #1d1d1f; color: #fff; padding: 18px 45px; border-radius: 50px;
+            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); z-index: 3000; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        #toast.active { transform: translateX(-50%) translateY(0); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header"><h2>ScienceBridge AI</h2></div>
+        <div class="curriculum-list" id="nav-list"></div>
+    </aside>
+
+    <main class="main-stage">
+        <nav class="top-nav">
+            <span id="module-label" style="text-transform: uppercase; letter-spacing: 2px; font-size: 11px; font-weight: 800; color: var(--text-secondary);">Research Environment V3.0 • AI & ML</span>
+            <a href="dashboard.html" class="btn-premium">System Dashboard</a>
+        </nav>
+
+        <div class="content-scroll">
+            <div class="stage-box" id="learning-stage">
+                <div class="video-player-area">
+                    <iframe id="player" src="" allowfullscreen></iframe>
+                </div>
+                <div class="info-panel">
+                    <span class="step-tag">AI Intelligence Pathway</span>
+                    <h1 class="step-title" id="step-title">Initializing AI Core...</h1>
+                    <p class="step-desc" id="step-desc">Please select a research module.</p>
+                    <button class="btn-premium" style="margin-top:35px; background:#000; color:#fff;" onclick="next()">Continue Research →</button>
+                </div>
+            </div>
+
+            <div class="quiz-view" id="quiz-stage">
+                <h1 style="font-size: 38px; letter-spacing: -1.5px; margin-bottom: 10px;">Knowledge Verification</h1>
+                <p style="color:var(--text-secondary); margin-bottom: 40px;">Validate your understanding of Artificial Intelligence concepts.</p>
+                <div id="quiz-stack"></div>
+                <button class="btn-premium" id="validate-btn" style="background:#000; color:#fff; width:100%; padding:20px; margin-top: 30px;" onclick="evaluateQuiz()">Submit for Analysis</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="grad-overlay">
+        <div id="celeb-icon" style="font-size: 120px; margin-bottom: 20px;">🤖</div>
+        <h1 id="celeb-title" style="font-size: 60px; font-weight: 800; margin: 10px 0; letter-spacing: -2px;">Core Logic Verified</h1>
+        <p id="celeb-desc" style="color: var(--text-secondary); font-size: 22px; max-width: 600px;">Your command of the concepts has been verified by the ScienceBridge AI system.</p>
+        <button class="btn-premium" id="celeb-btn" style="margin-top:40px; padding:20px 60px; background: #000; color: #fff;" onclick="hideCelebration()">Advance to Next Phase</button>
+    </div>
+
+    <div id="toast">Feedback Received.</div>
+
+    <script>
+        const content = [
+            // PART 1: Basics
+            { type: 'v', title: 'What is AI?', url: 'Q4JKii6cJK4', desc: 'An introduction to the thinking machines of the future.' },
+            { type: 'v', title: 'How Machines Learn', url: 'alrIxT_ozKA', desc: 'Understanding pattern recognition in animals and objects.' },
+            { type: 'v', title: 'AI in the Real World', url: 'YnJ0dxOuaqk', desc: 'Case studies: Robotic vacuums and navigation.' },
+            { type: 'v', title: 'Robot Learning Styles', url: 'jwJ7YH_pKu8', desc: 'Exploring Supervised, Unsupervised, and Reinforcement learning.' },
+            { type: 'v', title: 'The Power of Algorithms', url: 'gM782sItczs', desc: 'The sets of instructions that drive machine intelligence.' },
+            { type: 'q', questions: [
+                { q: "What is Artificial Intelligence (AI)?", a: ["A type of computer game", "When machines can learn and think like humans", "A new kind of smartphone app", "A robot that only follows commands"], c: 1 },
+                { q: "How does AI recognize objects like animals?", a: ["Memorizes objects without understanding", "Uses examples and algorithms to identify patterns", "Random guesses", "Manual programming for every animal"], c: 1 },
+                { q: "How does AI help robotic vacuum cleaners?", a: ["Recognizes faces for security", "Maps the house, learns routes, and avoids obstacles", "Changes traffic light patterns", "Adjusts math game questions"], c: 1 },
+                { q: "Which statement about AI learning methods is accurate?", a: ["Only learns through trial and error", "Uses supervised, unsupervised, and reinforcement learning", "Relies solely on sensors without data learning", "Cannot be built by children"], c: 1 },
+                { q: "What describes algorithms in machine learning?", a: ["The goals AI tries to achieve", "Sets of instructions that help computers learn from data", "The mistakes AI makes", "Toys that AI sorts into bins"], c: 1 }
+            ]},
+            // PART 2: Advanced ML
+            { type: 'v', title: 'Decision Trees & Regression', url: '76v_EvCnIf8', desc: 'Predicting numerical outcomes and making logic trees.' },
+            { type: 'v', title: 'Data: The AI Fuel', url: 'vTkn_ce4_qo', desc: 'Why data is essential for learning patterns.' },
+            { type: 'v', title: 'AI Safety & Ethics', url: 'Fvt-Wwl6SMU', desc: 'The importance of adult guidance and safe data practices.' },
+            { type: 'v', title: 'ML Categories Summary', url: '_jY3RGb46yY', desc: 'A deep dive into the three main branches of ML.' },
+            { type: 'v', title: 'Deep Learning Layers', url: 'FU15Eul9KJw', desc: 'How hidden layers in a neural network process complexity.' },
+            { type: 'q', questions: [
+                { q: "Distinguish between algorithms and applications:", a: ["Decision trees are for grouping without labels", "Clustering is supervised", "Linear regression predicts numerical outcomes like sales", "K nearest neighbors is unsupervised"], c: 2 },
+                { q: "Role of data in helping AI learn:", a: ["Predefined rules programmed in", "Small pieces of information that reveal patterns", "Only includes numbers", "Data is irrelevant"], c: 1 },
+                { q: "Main reason for adult presence during AI use?", a: ["Complete homework faster", "Help understand if something is unsafe or inappropriate", "Ensure AI is always correct", "Replace AI if it breaks"], c: 1 },
+                { q: "Summary of three main types of machine learning:", a: ["Supervised, unsupervised, reinforcement", "Supervised, unsupervised, classification", "Supervised, clustering, reinforcement", "Supervised, unsupervised, regression"], c: 0 },
+                { q: "Role of hidden layers in deep learning?", a: ["Collect raw data senses", "Pass final output decision", "Process data and recognize patterns layer by layer", "Correct mistakes during training"], c: 2 }
+            ]},
+            // PART 3: NLP & ChatGPT
+            { type: 'v', title: 'The World of ChatGPT', url: 'g7LwR5ZNupg', desc: 'How Large Language Models predict the next word.' },
+            { type: 'v', title: 'Foundations of NLP', url: 'Cty3wcYIYgw', desc: 'Tokenization and breaking down human language.' },
+            { type: 'v', title: 'Advanced Text Analysis', url: 'y1ef7C8RqBk', desc: 'NER, Word Embeddings, and Coreference Resolution.' },
+            { type: 'q', questions: [
+                { q: "How does ChatGPT generate an answer?", a: ["Retrieves pre-verified static answers", "Identifies patterns to predict the most logical response", "Recalls memory like a human brain", "Searches live news in real-time"], c: 1 },
+                { q: "Why is tokenization a prerequisite for NLP?", a: ["Translates to binary immediately", "Breaks sentences into manageable discrete units", "Assigns POS tags automatically", "Removes punctuation to save time"], c: 1 },
+                { q: "NER vs POS Tagging:", a: ["POS is for entities, NER is for verbs", "NER is for audio, POS is for text", "POS is grammatical function, NER classifies real-world entities", "They are identical"], c: 2 },
+                { q: "Why are Word Embeddings (points in space) effective?", a: ["Store more words in memory", "Calculates mathematical distance to capture semantic relationships", "Translates text to binary", "Reduces data cleaning"], c: 1 },
+                { q: "Why is coreference resolution critical?", a: ["Corrects spelling errors", "Prevents lowercase conversion", "Links pronouns back to the same subject for context", "Translates speech to text"], c: 2 }
+            ]}
+        ];
+
+        let cur = 0;
+
+        function initNav() {
+            const list = document.getElementById('nav-list');
+            list.innerHTML = '';
+            content.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = `curriculum-item ${i === cur ? 'active' : ''}`;
+                el.onclick = () => { cur = i; render(); };
+                el.innerHTML = `
+                    <div class="item-icon">${item.type === 'v' ? '▶' : '?'}</div>
+                    <div style="font-size: 14px; font-weight:600">${item.title || 'Knowledge Check'}</div>
+                `;
+                list.appendChild(el);
+            });
+        }
+
+        function render() {
+            initNav();
+            const step = content[cur];
+            
+            if(step.type === 'v') {
+                document.getElementById('learning-stage').style.display = 'block';
+                document.getElementById('quiz-stage').style.display = 'none';
+                document.getElementById('player').src = `https://www.youtube.com/embed/${step.url}?autoplay=0&rel=0`;
+                document.getElementById('step-title').innerText = step.title;
+                document.getElementById('step-desc').innerText = step.desc;
+            } else {
+                document.getElementById('learning-stage').style.display = 'none';
+                document.getElementById('quiz-stage').style.display = 'block';
+                renderQuiz(step.questions);
+            }
+        }
+
+        function renderQuiz(qs) {
+            const stack = document.getElementById('quiz-stack');
+            stack.innerHTML = '';
+            qs.forEach((q, i) => {
+                const qRow = document.createElement('div');
+                qRow.className = 'q-row';
+                const qText = document.createElement('p');
+                qText.style = "font-weight:700; font-size:18px; margin-bottom:15px";
+                qText.innerText = `${i+1}. ${q.q}`;
+                qRow.appendChild(qText);
+
+                q.a.forEach((opt, idx) => {
+                    const label = document.createElement('label');
+                    label.className = 'option-btn';
+                    const radio = document.createElement('input');
+                    radio.type = 'radio'; radio.name = `q${i}`; radio.value = idx;
+                    radio.style.display = 'none';
+                    label.appendChild(radio);
+                    label.append(document.createTextNode(opt));
+                    label.onclick = function() {
+                        this.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+                        this.classList.add('selected');
+                        this.querySelector('input').checked = true;
+                    };
+                    qRow.appendChild(label);
+                });
+                stack.appendChild(qRow);
+            });
+        }
+
+        function evaluateQuiz() {
+            const step = content[cur];
+            let score = 0;
+            step.questions.forEach((q, i) => {
+                const sel = document.querySelector(`input[name="q${i}"]:checked`);
+                if(sel && parseInt(sel.value) === q.c) {
+                    score++;
+                    sel.parentElement.classList.add('correct');
+                } else if(sel) {
+                    sel.parentElement.classList.add('wrong');
+                }
+            });
+
+            if(score === step.questions.length) {
+                if (cur === content.length - 1) showFinalCelebration();
+                else showStandardCelebration();
+            } else {
+                triggerToast(`Score: ${score}/${step.questions.length}. Neural patterns mismatched. Review and retry.`);
+            }
+        }
+
+        function showStandardCelebration() {
+            document.getElementById('celeb-icon').innerText = "🤖";
+            document.getElementById('celeb-title').innerText = "Module Sync Complete";
+            document.getElementById('celeb-desc').innerText = "Neural pathways established. Concept verification successful.";
+            document.getElementById('celeb-btn').innerText = "Next Data Packet";
+            document.getElementById('grad-overlay').style.display = 'flex';
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+
+        function showFinalCelebration() {
+            document.getElementById('celeb-icon').innerText = "🌌";
+            document.getElementById('celeb-title').innerText = "AI Master Protocol";
+            document.getElementById('celeb-desc').innerText = "Supreme achievement! You have mastered the Artificial Intelligence and Machine Learning curriculum.";
+            document.getElementById('celeb-btn').innerText = "System Dashboard";
+            document.getElementById('grad-overlay').style.display = 'flex';
+            
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 3000 };
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({...defaults, particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } });
+            }, 250);
+        }
+
+        function triggerToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 4000);
+        }
+
+        function hideCelebration() { 
+            document.getElementById('grad-overlay').style.display = 'none'; 
+            if (cur < content.length - 1) next(); 
+            else window.location.href = "dashboard.html";
+        }
+
+        function next() {
+            if(cur < content.length - 1) { cur++; render(); }
+        }
+
+        render();
+    </script>
+</body>
+</html>

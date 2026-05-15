@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0" />
+
+  <title>
+    ScienceBridge Cognitive Development Analytics
+  </title>
+
+  <link rel="preconnect"
+  href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+
+      --bg:#040816;
+      --glass:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.08);
+
+      --cyan:#67e8f9;
+      --blue:#38bdf8;
+      --purple:#8b5cf6;
+      --pink:#ec4899;
+
+      --text:#ffffff;
+      --muted:#94a3b8;
+
+    }
+
+    body{
+
+      font-family:'Inter',sans-serif;
+
+      background:
+      radial-gradient(circle at top left,#101935 0%,transparent 35%),
+      radial-gradient(circle at bottom right,#2b1144 0%,transparent 35%),
+      linear-gradient(to bottom,#040816,#020617);
+
+      color:white;
+
+      min-height:100vh;
+
+      overflow-x:hidden;
+
+    }
+
+    body::before{
+
+      content:'';
+
+      position:fixed;
+
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+
+      background-size:70px 70px;
+
+      mask-image:
+      radial-gradient(circle at center,black 20%,transparent 80%);
+
+      pointer-events:none;
+
+      z-index:-5;
+
+    }
+
+    .floating-light{
+
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(120px);
+
+      opacity:.18;
+
+      z-index:-3;
+
+      animation:float 12s ease-in-out infinite;
+
+    }
+
+    .light1{
+
+      width:500px;
+      height:500px;
+
+      background:#06b6d4;
+
+      top:-10%;
+      left:-10%;
+
+    }
+
+    .light2{
+
+      width:600px;
+      height:600px;
+
+      background:#8b5cf6;
+
+      bottom:-15%;
+      right:-10%;
+
+      animation-delay:2s;
+
+    }
+
+    .light3{
+
+      width:450px;
+      height:450px;
+
+      background:#ec4899;
+
+      top:35%;
+      left:40%;
+
+      animation-delay:5s;
+
+    }
+
+    @keyframes float{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-40px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+
+    }
+
+    /* DASHBOARD LAYOUT */
+
+    .dashboard{
+
+      display:flex;
+
+      min-height:100vh;
+
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+
+      width:290px;
+
+      padding:30px 24px;
+
+      position:fixed;
+
+      top:0;
+      left:0;
+      bottom:0;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border-right:
+      1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(30px);
+
+      overflow:auto;
+
+      z-index:100;
+
+    }
+
+    .sidebar::-webkit-scrollbar{
+      width:0;
+    }
+
+    .logo{
+
+      font-size:28px;
+
+      font-weight:900;
+
+      margin-bottom:40px;
+
+      letter-spacing:-1px;
+
+    }
+
+    .logo span{
+
+      background:
+      linear-gradient(to right,#67e8f9,#38bdf8,#ec4899);
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .menu{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:14px;
+
+    }
+
+    .menu a{
+
+      text-decoration:none;
+
+      color:#dbeafe;
+
+      padding:18px 18px;
+
+      border-radius:20px;
+
+      font-weight:600;
+
+      transition:.35s;
+
+      background:transparent;
+
+      border:1px solid transparent;
+
+    }
+
+    .menu a:hover{
+
+      background:
+      rgba(255,255,255,.05);
+
+      border-color:
+      rgba(255,255,255,.08);
+
+      transform:translateX(6px);
+
+      color:white;
+
+    }
+
+    .menu .active{
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.15),
+      rgba(168,85,247,.15)
+      );
+
+      border:1px solid
+      rgba(255,255,255,.08);
+
+    }
+
+    /* MAIN CONTENT */
+
+    .main-content{
+
+      margin-left:290px;
+
+      width:100%;
+
+    }
+
+    .container{
+
+      width:100%;
+
+      max-width:1500px;
+
+      margin:auto;
+
+      padding:40px 30px 80px;
+
+    }
+
+    .hero{
+
+      position:relative;
+
+      overflow:hidden;
+
+      padding:55px;
+
+      border-radius:40px;
+
+      margin-bottom:35px;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(30px);
+
+    }
+
+    .hero::before{
+
+      content:'';
+
+      position:absolute;
+
+      width:500px;
+      height:500px;
+
+      background:
+      radial-gradient(circle,#06b6d4,transparent 70%);
+
+      top:-250px;
+      right:-180px;
+
+      opacity:.18;
+
+    }
+
+    .hero h1{
+
+      font-size:72px;
+
+      line-height:1;
+
+      margin-bottom:20px;
+
+      letter-spacing:-3px;
+
+      position:relative;
+
+      z-index:2;
+
+    }
+
+    .gradient{
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #38bdf8,
+      #c084fc,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .hero p{
+
+      max-width:950px;
+
+      color:var(--muted);
+
+      line-height:1.9;
+
+      font-size:18px;
+
+      position:relative;
+
+      z-index:2;
+
+    }
+
+    .stats{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(240px,1fr));
+
+      gap:25px;
+
+      margin-bottom:35px;
+
+    }
+
+    .stat-card{
+
+      padding:35px;
+
+      border-radius:32px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(24px);
+
+      transition:.45s;
+
+    }
+
+    .stat-card:hover{
+
+      transform:translateY(-8px);
+
+      box-shadow:
+      0 20px 50px rgba(56,189,248,.12);
+
+    }
+
+    .stat-card span{
+
+      color:var(--muted);
+
+      font-size:14px;
+
+    }
+
+    .stat-card h2{
+
+      font-size:48px;
+
+      margin-top:14px;
+
+    }
+
+    .section{
+
+      margin-bottom:35px;
+
+      padding:35px;
+
+      border-radius:36px;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(28px);
+
+    }
+
+    .section h2{
+
+      font-size:38px;
+
+      margin-bottom:18px;
+
+      letter-spacing:-1px;
+
+    }
+
+    .section p{
+
+      color:var(--muted);
+
+      line-height:1.9;
+
+      margin-bottom:30px;
+
+    }
+
+    .graph{
+
+      width:100%;
+
+      height:320px;
+
+      border-radius:28px;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.08),
+      rgba(168,85,247,.08)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      position:relative;
+
+      overflow:hidden;
+
+      display:flex;
+
+      align-items:flex-end;
+
+      justify-content:space-evenly;
+
+      padding:30px;
+
+    }
+
+    .bar{
+
+      width:60px;
+
+      border-radius:20px 20px 0 0;
+
+      background:
+      linear-gradient(
+      to top,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      animation:grow 1.4s ease;
+
+    }
+
+    @keyframes grow{
+
+      from{
+        height:0;
+      }
+
+    }
+
+    .analytics-grid{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(320px,1fr));
+
+      gap:24px;
+
+    }
+
+    .analytics-card{
+
+      padding:28px;
+
+      border-radius:28px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      transition:.4s;
+
+    }
+
+    .analytics-card:hover{
+
+      transform:translateY(-6px);
+
+      border-color:
+      rgba(103,232,249,.25);
+
+    }
+
+    .analytics-card h3{
+
+      font-size:24px;
+
+      margin-bottom:16px;
+
+    }
+
+    .analytics-card p{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      margin-bottom:0;
+
+    }
+
+    .timeline{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:22px;
+
+    }
+
+    .timeline-card{
+
+      padding:28px;
+
+      border-radius:28px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border-left:5px solid #67e8f9;
+
+      border-top:1px solid rgba(255,255,255,.08);
+
+      border-right:1px solid rgba(255,255,255,.08);
+
+      border-bottom:1px solid rgba(255,255,255,.08);
+
+    }
+
+    .timeline-card h4{
+
+      font-size:22px;
+
+      margin-bottom:14px;
+
+    }
+
+    .timeline-card p{
+
+      margin:0;
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+    }
+
+    .insight-box{
+
+      padding:30px;
+
+      border-radius:30px;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.08),
+      rgba(168,85,247,.08)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      margin-bottom:22px;
+
+    }
+
+    .insight-box strong{
+
+      display:block;
+
+      font-size:22px;
+
+      margin-bottom:14px;
+
+    }
+
+    .insight-box p{
+
+      margin:0;
+
+      color:#dbeafe;
+
+      line-height:1.9;
+
+    }
+
+    .comparison-grid{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(260px,1fr));
+
+      gap:22px;
+
+    }
+
+    .comparison-card{
+
+      padding:30px;
+
+      border-radius:28px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      text-align:center;
+
+    }
+
+    .comparison-card h1{
+
+      font-size:54px;
+
+      margin-bottom:10px;
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+
+    }
+
+    .comparison-card span{
+
+      color:var(--muted);
+
+    }
+
+    @media(max-width:900px){
+
+      .sidebar{
+        display:none;
+      }
+
+      .main-content{
+        margin-left:0;
+      }
+
+      .hero h1{
+        font-size:46px;
+      }
+
+      .section h2{
+        font-size:30px;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .container{
+        padding:22px;
+      }
+
+      .hero{
+        padding:35px;
+      }
+
+      .hero h1{
+        font-size:38px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="floating-light light1"></div>
+  <div class="floating-light light2"></div>
+  <div class="floating-light light3"></div>
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="logo">
+        ⚛️ <span>ScienceBridge</span>
+      </div>
+
+      <div class="menu">
+
+        <a href="dashboard.html">
+          🏠 Dashboard
+        </a>
+
+        <a href="courses.html">
+          📚 Courses
+        </a>
+
+       
+        <a href="progress.html" class="active">
+          📈 Our Progress
+        </a>
+
+        <a href="research.html">
+          🧠 Research
+        </a>
+        <a href="team.html">
+          🥶 Our Team
+        </a>
+        
+
+
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+      <div class="container">
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+          <h1>
+            Cognitive Development
+            <span class="gradient">
+              Analytics
+            </span>
+          </h1>
+
+          <p>
+            ScienceBridge AI continuously evaluates longitudinal intellectual growth,
+            reasoning sophistication, analytical structure, evidence integration,
+            inferential consistency, and communication intelligence through
+            AI-assisted educational cognition systems.
+          </p>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+          <div class="stat-card">
+            <span>
+              Reasoning Sophistication Index
+            </span>
+            <h2>
+              91%
+            </h2>
+          </div>
+
+          <div class="stat-card">
+            <span>
+              Evidence Integration Quality
+            </span>
+            <h2>
+              84%
+            </h2>
+          </div>
+
+          <div class="stat-card">
+            <span>
+              Inferential Consistency
+            </span>
+            <h2>
+              88%
+            </h2>
+          </div>
+
+          <div class="stat-card">
+            <span>
+              Analytical Depth Modeling
+            </span>
+            <h2>
+              93%
+            </h2>
+          </div>
+
+        </div>
+
+        <!-- REASONING TRAJECTORY -->
+
+        <div class="section">
+
+          <h2>
+            Reasoning Quality Trajectory
+          </h2>
+
+          <p>
+            Longitudinal analysis of argumentative sophistication, structural coherence,
+            multi-perspective reasoning, and intellectual maturity progression.
+          </p>
+
+          <div class="graph">
+
+            <div class="bar" style="height:120px"></div>
+            <div class="bar" style="height:170px"></div>
+            <div class="bar" style="height:210px"></div>
+            <div class="bar" style="height:250px"></div>
+            <div class="bar" style="height:290px"></div>
+
+          </div>
+
+        </div>
+
+        <!-- ANALYTICS -->
+
+        <div class="section">
+
+          <h2>
+            Evidence Integration Analytics
+          </h2>
+
+          <div class="analytics-grid">
+
+            <div class="analytics-card">
+
+              <h3>
+                Evidence Density
+              </h3>
+
+              <p>
+                The student increasingly incorporates explanatory support,
+                factual references, and comparative reasoning into analytical responses.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Empirical Support Usage
+              </h3>
+
+              <p>
+                Responses demonstrate measurable growth in empirical justification,
+                contextual support, and evidence-backed argument architecture.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Justification Strength
+              </h3>
+
+              <p>
+                Inferential conclusions increasingly align with supporting premises,
+                demonstrating stronger argumentative defense structures.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- LOGICAL CONSISTENCY -->
+
+        <div class="section">
+
+          <h2>
+            Logical Consistency Mapping
+          </h2>
+
+          <div class="analytics-grid">
+
+            <div class="analytics-card">
+
+              <h3>
+                Coherence Stability
+              </h3>
+
+              <p>
+                Internal reasoning continuity demonstrates increasing structural consistency
+                across multi-layered analytical responses.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Inferential Accuracy
+              </h3>
+
+              <p>
+                Conclusions increasingly emerge logically from presented premises,
+                reducing unsupported argumentative transitions.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Structural Integrity
+              </h3>
+
+              <p>
+                Response architecture demonstrates improving organizational sequencing
+                and conceptual progression stability.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- DEPTH MODELING -->
+
+        <div class="section">
+
+          <h2>
+            Analytical Depth Modeling
+          </h2>
+
+          <div class="analytics-grid">
+
+            <div class="analytics-card">
+
+              <h3>
+                Multi-Step Reasoning
+              </h3>
+
+              <p>
+                Increasing ability to connect abstract concepts through layered analytical progression.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Counterargument Awareness
+              </h3>
+
+              <p>
+                Responses increasingly acknowledge competing perspectives and alternative interpretations.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Causal Analysis
+              </h3>
+
+              <p>
+                Analytical structures demonstrate improved explanation of causal relationships and mechanisms.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- COMMUNICATION -->
+
+        <div class="section">
+
+          <h2>
+            Communication Intelligence
+          </h2>
+
+          <div class="analytics-grid">
+
+            <div class="analytics-card">
+
+              <h3>
+                Precision of Language
+              </h3>
+
+              <p>
+                Increasing linguistic precision within analytical and conceptual communication patterns.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Conceptual Clarity
+              </h3>
+
+              <p>
+                Explanatory responses exhibit improving conceptual transparency and academic articulation.
+              </p>
+
+            </div>
+
+            <div class="analytics-card">
+
+              <h3>
+                Argument Flow
+              </h3>
+
+              <p>
+                Structural transitions demonstrate improved continuity across complex reasoning sequences.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TIMELINE -->
+
+        <div class="section">
+
+          <h2>
+            Cognitive Growth Timeline
+          </h2>
+
+          <div class="timeline">
+
+            <div class="timeline-card">
+
+              <h4>
+                September
+              </h4>
+
+              <p>
+                Primarily opinion-based responses with limited analytical support.
+              </p>
+
+            </div>
+
+            <div class="timeline-card">
+
+              <h4>
+                October
+              </h4>
+
+              <p>
+                Emerging use of evidence and improved argumentative organization.
+              </p>
+
+            </div>
+
+            <div class="timeline-card">
+
+              <h4>
+                December
+              </h4>
+
+              <p>
+                Demonstrates causal reasoning and structured analytical progression.
+              </p>
+
+            </div>
+
+            <div class="timeline-card">
+
+              <h4>
+                February
+              </h4>
+
+              <p>
+                Capable of multi-perspective evaluation and sophisticated justification patterns.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- AI INSIGHTS -->
+
+        <div class="section">
+
+          <h2>
+            AI Research Insight Engine
+          </h2>
+
+          <div class="insight-box">
+
+            <strong>
+              Higher-Order Learning Observation
+            </strong>
+
+            <p>
+              The student exhibits rapid growth in argumentative organization but demonstrates slower development in evidence integration density.
+            </p>
+
+          </div>
+
+          <div class="insight-box">
+
+            <strong>
+              Comparative Analytical Behavior
+            </strong>
+
+            <p>
+              Analytical sophistication increases significantly when discussing technological ethics compared to abstract societal structures.
+            </p>
+
+          </div>
+
+          <div class="insight-box">
+
+            <strong>
+              Inferential Pattern Modeling
+            </strong>
+
+            <p>
+              The student demonstrates strong conceptual intuition with progressively improving inferential precision.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- COMPARISON -->
+
+        <div class="section">
+
+          <h2>
+            Comparative Intellectual Growth
+          </h2>
+
+          <div class="comparison-grid">
+
+            <div class="comparison-card">
+
+              <h1>
+                +18%
+              </h1>
+
+              <span>
+                Logical Consistency Improvement
+              </span>
+
+            </div>
+
+            <div class="comparison-card">
+
+              <h1>
+                +24%
+              </h1>
+
+              <span>
+                Evidence-Supported Claims
+              </span>
+
+            </div>
+
+            <div class="comparison-card">
+
+              <h1>
+                +31%
+              </h1>
+
+              <span>
+                Analytical Depth Progression
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+
+</html>

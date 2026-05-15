@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0" />
+
+  <title>ScienceBridge Quantum Dashboard</title>
+
+  <link rel="preconnect"
+  href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+
+      --bg:#060816;
+      --glass:rgba(255,255,255,.06);
+      --glass-2:rgba(255,255,255,.03);
+
+      --border:rgba(255,255,255,.09);
+
+      --cyan:#67e8f9;
+      --blue:#38bdf8;
+      --purple:#a855f7;
+      --pink:#ec4899;
+
+      --text:#ffffff;
+      --muted:#94a3b8;
+    }
+
+    body{
+
+      font-family:'Inter',sans-serif;
+
+      background:
+      radial-gradient(circle at top left,#101935 0%,transparent 35%),
+      radial-gradient(circle at bottom right,#2b1144 0%,transparent 35%),
+      linear-gradient(to bottom,#040816,#020617);
+
+      color:white;
+
+      overflow-x:hidden;
+
+      min-height:100vh;
+
+      transition:
+      opacity .45s ease,
+      transform .45s ease;
+    }
+
+    body::before{
+
+      content:'';
+
+      position:fixed;
+
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+
+      background-size:70px 70px;
+
+      mask-image:
+      radial-gradient(circle at center,black 20%,transparent 80%);
+
+      pointer-events:none;
+
+      z-index:-5;
+    }
+
+    .noise{
+
+      position:fixed;
+      inset:0;
+
+      background-image:
+      url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+
+      opacity:.04;
+
+      pointer-events:none;
+
+      z-index:-4;
+    }
+
+    .floating-light{
+
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(120px);
+
+      opacity:.18;
+
+      z-index:-3;
+
+      animation:float 12s ease-in-out infinite;
+    }
+
+    .light1{
+
+      width:500px;
+      height:500px;
+
+      background:#06b6d4;
+
+      top:-10%;
+      left:-10%;
+    }
+
+    .light2{
+
+      width:600px;
+      height:600px;
+
+      background:#a855f7;
+
+      bottom:-15%;
+      right:-10%;
+
+      animation-delay:2s;
+    }
+
+    .light3{
+
+      width:450px;
+      height:450px;
+
+      background:#ec4899;
+
+      top:35%;
+      left:40%;
+
+      animation-delay:5s;
+    }
+
+    @keyframes float{
+
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-40px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+    }
+
+    .dashboard{
+
+      display:flex;
+
+      min-height:100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+
+      width:290px;
+
+      padding:30px 24px;
+
+      position:fixed;
+
+      top:0;
+      left:0;
+      bottom:0;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border-right:
+      1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(30px);
+
+      overflow:auto;
+    }
+
+    .sidebar::-webkit-scrollbar{
+      width:0;
+    }
+
+    .logo{
+
+      font-size:28px;
+
+      font-weight:900;
+
+      margin-bottom:40px;
+
+      letter-spacing:-1px;
+    }
+
+    .logo span{
+
+      background:
+      linear-gradient(to right,#67e8f9,#38bdf8,#ec4899);
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .menu{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:14px;
+    }
+
+    .menu a{
+
+      text-decoration:none;
+
+      color:#dbeafe;
+
+      padding:18px 18px;
+
+      border-radius:20px;
+
+      font-weight:600;
+
+      transition:.35s;
+
+      background:transparent;
+
+      border:1px solid transparent;
+    }
+
+    .menu a:hover{
+
+      background:
+      rgba(255,255,255,.05);
+
+      border-color:
+      rgba(255,255,255,.08);
+
+      transform:translateX(6px);
+
+      color:white;
+    }
+
+    .menu .active{
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(6,182,212,.15),
+      rgba(168,85,247,.15)
+      );
+
+      border:1px solid
+      rgba(255,255,255,.08);
+
+      box-shadow:
+      inset 0 0 20px rgba(255,255,255,.03),
+      0 10px 30px rgba(56,189,248,.08);
+    }
+
+    .sidebar-bottom{
+
+      margin-top:40px;
+
+      padding:22px;
+
+      border-radius:26px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(20px);
+    }
+
+    .sidebar-bottom h3{
+
+      margin-bottom:10px;
+
+      font-size:20px;
+    }
+
+    .sidebar-bottom p{
+
+      color:var(--muted);
+
+      line-height:1.7;
+
+      font-size:14px;
+
+      margin-bottom:18px;
+    }
+
+    .logout-btn{
+
+      width:100%;
+
+      padding:16px;
+
+      border:none;
+
+      border-radius:18px;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.4s;
+    }
+
+    .logout-btn:hover{
+
+      transform:translateY(-4px);
+
+      box-shadow:
+      0 15px 30px rgba(168,85,247,.25);
+    }
+
+    /* MAIN */
+
+    .main{
+
+      margin-left:290px;
+
+      width:100%;
+
+      padding:35px;
+    }
+
+    /* TOPBAR */
+
+    .topbar{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      margin-bottom:35px;
+
+      gap:20px;
+    }
+
+    .welcome h1{
+
+      font-size:58px;
+
+      line-height:1.05;
+
+      margin-bottom:14px;
+
+      letter-spacing:-2px;
+    }
+
+    .gradient{
+
+      background:
+      linear-gradient(
+      to right,
+      #67e8f9,
+      #38bdf8,
+      #c084fc,
+      #ec4899
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+    }
+
+    .welcome p{
+
+      color:var(--muted);
+
+      font-size:18px;
+
+      line-height:1.7;
+
+      max-width:700px;
+    }
+
+    .top-right{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:18px;
+    }
+
+    .glass-chip{
+
+      padding:16px 22px;
+
+      border-radius:22px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(20px);
+
+      color:#dbeafe;
+    }
+
+    .avatar{
+
+      width:58px;
+      height:58px;
+
+      border-radius:50%;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      font-size:22px;
+
+      font-weight:800;
+
+      box-shadow:
+      0 10px 25px rgba(168,85,247,.25);
+    }
+
+    /* HERO */
+
+    .hero-panel{
+
+      position:relative;
+
+      overflow:hidden;
+
+      background:
+      linear-gradient(
+      135deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      border-radius:36px;
+
+      padding:44px;
+
+      backdrop-filter:blur(30px);
+
+      margin-bottom:28px;
+    }
+
+    .hero-panel::before{
+
+      content:'';
+
+      position:absolute;
+
+      width:500px;
+      height:500px;
+
+      background:
+      radial-gradient(circle,#06b6d4,transparent 70%);
+
+      top:-250px;
+      right:-180px;
+
+      opacity:.18;
+    }
+
+    .hero-panel h2{
+
+      font-size:42px;
+
+      margin-bottom:18px;
+
+      position:relative;
+
+      z-index:1;
+    }
+
+    .hero-panel p{
+
+      color:var(--muted);
+
+      line-height:1.9;
+
+      max-width:800px;
+
+      margin-bottom:28px;
+
+      position:relative;
+
+      z-index:1;
+    }
+
+    .hero-buttons{
+
+      display:flex;
+
+      gap:18px;
+
+      flex-wrap:wrap;
+
+      position:relative;
+
+      z-index:1;
+    }
+
+    .hero-buttons button{
+
+      padding:16px 26px;
+
+      border:none;
+
+      border-radius:18px;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      transition:.4s;
+    }
+
+    .primary-btn{
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+    }
+
+    .secondary-btn{
+
+      background:
+      rgba(255,255,255,.05);
+
+      color:white;
+
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .hero-buttons button:hover{
+
+      transform:translateY(-4px);
+    }
+
+    /* CONTINUE STRIP */
+
+    .continue-strip{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      padding:22px 28px;
+
+      border-radius:24px;
+
+      margin-bottom:32px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(24px);
+    }
+
+    .continue-left{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:14px;
+
+      color:#dbeafe;
+    }
+
+    .live-dot{
+
+      width:12px;
+      height:12px;
+
+      border-radius:50%;
+
+      background:#06b6d4;
+
+      box-shadow:
+      0 0 20px #06b6d4;
+
+      animation:pulse 1.5s infinite;
+    }
+
+    @keyframes pulse{
+
+      0%{
+        opacity:1;
+      }
+
+      50%{
+        opacity:.4;
+      }
+
+      100%{
+        opacity:1;
+      }
+    }
+
+    .continue-strip button{
+
+      padding:14px 22px;
+
+      border:none;
+
+      border-radius:16px;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+
+      font-weight:700;
+
+      cursor:pointer;
+    }
+
+    /* STATS */
+
+    .stats{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(240px,1fr));
+
+      gap:24px;
+
+      margin-bottom:35px;
+    }
+
+    .stat-card{
+
+      position:relative;
+
+      overflow:hidden;
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      border-radius:30px;
+
+      padding:32px;
+
+      backdrop-filter:blur(24px);
+
+      transition:.45s;
+    }
+
+    .stat-card:hover{
+
+      transform:translateY(-10px);
+
+      box-shadow:
+      0 20px 40px rgba(56,189,248,.12);
+    }
+
+    .stat-card span{
+
+      color:var(--muted);
+
+      font-size:14px;
+    }
+
+    .stat-card h2{
+
+      font-size:46px;
+
+      margin-top:12px;
+    }
+
+    /* GRID */
+
+    .content-grid{
+
+      display:grid;
+
+      grid-template-columns:2fr 1fr;
+
+      gap:28px;
+
+      margin-bottom:35px;
+    }
+
+    .glass-box{
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      border-radius:34px;
+
+      padding:32px;
+
+      backdrop-filter:blur(28px);
+    }
+
+    .glass-box h2{
+
+      font-size:32px;
+
+      margin-bottom:24px;
+    }
+
+    /* COURSES */
+
+    .courses{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fit,minmax(240px,1fr));
+
+      gap:22px;
+    }
+
+    .course-card{
+
+      position:relative;
+
+      overflow:hidden;
+
+      padding:30px;
+
+      border-radius:32px;
+
+      background:
+      linear-gradient(
+      145deg,
+      rgba(255,255,255,.06),
+      rgba(255,255,255,.02)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(24px);
+
+      transition:.5s;
+
+      cursor:pointer;
+
+      min-height:260px;
+
+      display:flex;
+
+      flex-direction:column;
+
+      justify-content:space-between;
+    }
+
+    .course-card:hover{
+
+      transform:
+      translateY(-12px)
+      scale(1.02);
+
+      border-color:
+      rgba(103,232,249,.25);
+
+      box-shadow:
+      0 20px 50px rgba(56,189,248,.10),
+      0 0 80px rgba(168,85,247,.08);
+    }
+
+    .course-glow{
+
+      position:absolute;
+
+      width:220px;
+      height:220px;
+
+      border-radius:50%;
+
+      background:
+      radial-gradient(circle,
+      rgba(56,189,248,.25),
+      transparent 70%);
+
+      top:-100px;
+      right:-100px;
+
+      opacity:0;
+
+      transition:.5s;
+    }
+
+    .course-card:hover .course-glow{
+
+      opacity:1;
+    }
+
+    .course-top-row{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+    }
+
+    .course-icon{
+
+      font-size:42px;
+    }
+
+    .course-arrow{
+
+      width:44px;
+      height:44px;
+
+      border-radius:50%;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      font-size:18px;
+
+      transition:.4s;
+    }
+
+    .course-card:hover .course-arrow{
+
+      transform:
+      translateX(5px)
+      rotate(-10deg);
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6
+      );
+    }
+
+    .course-card h3{
+
+      font-size:28px;
+
+      margin:20px 0 12px;
+
+      letter-spacing:-1px;
+    }
+
+    .course-card p{
+
+      color:var(--muted);
+
+      line-height:1.8;
+
+      font-size:15px;
+    }
+
+    .preview-pill{
+
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:8px;
+
+      padding:10px 14px;
+
+      border-radius:999px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      font-size:12px;
+
+      color:#dbeafe;
+
+      margin-top:18px;
+
+      opacity:0;
+
+      transform:translateY(10px);
+
+      transition:.45s;
+    }
+
+    .course-card:hover .preview-pill{
+
+      opacity:1;
+
+      transform:translateY(0);
+    }
+
+    .course-footer{
+
+      margin-top:25px;
+    }
+
+    .course-footer span{
+
+      display:block;
+
+      margin-bottom:12px;
+
+      color:#dbeafe;
+
+      font-size:14px;
+    }
+
+    .progress{
+
+      width:100%;
+
+      height:12px;
+
+      border-radius:999px;
+
+      background:#172036;
+
+      overflow:hidden;
+    }
+
+    .progress span{
+
+      display:block;
+
+      height:100%;
+
+      border-radius:999px;
+
+      background:
+      linear-gradient(
+      to right,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+    }
+
+    /* SIDE PANEL */
+
+    .mini-panel{
+
+      display:flex;
+
+      flex-direction:column;
+
+      gap:22px;
+    }
+
+    .level-card{
+
+      text-align:center;
+    }
+
+    .level-circle{
+
+      width:180px;
+      height:180px;
+
+      border-radius:50%;
+
+      margin:auto;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      background:
+      conic-gradient(
+      #06b6d4 0%,
+      #8b5cf6 70%,
+      rgba(255,255,255,.08) 70%
+      );
+
+      padding:14px;
+    }
+
+    .level-inner{
+
+      width:100%;
+      height:100%;
+
+      border-radius:50%;
+
+      background:#09111f;
+
+      display:flex;
+
+      flex-direction:column;
+
+      align-items:center;
+
+      justify-content:center;
+    }
+
+    .level-inner h1{
+
+      font-size:46px;
+    }
+
+    .level-inner span{
+
+      color:var(--muted);
+    }
+
+    .task{
+
+      padding:18px;
+
+      border-radius:22px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      margin-bottom:14px;
+    }
+
+    .task strong{
+
+      display:block;
+
+      margin-bottom:8px;
+    }
+
+    .task span{
+
+      color:var(--muted);
+
+      font-size:14px;
+    }
+
+    /* AI */
+
+    .ai-box{
+
+      background:
+      linear-gradient(
+      180deg,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.03)
+      );
+
+      border:1px solid rgba(255,255,255,.08);
+
+      border-radius:36px;
+
+      padding:35px;
+
+      backdrop-filter:blur(30px);
+    }
+
+    .ai-box h2{
+
+      font-size:34px;
+
+      margin-bottom:12px;
+    }
+
+    .ai-box p{
+
+      color:var(--muted);
+
+      margin-bottom:26px;
+
+      line-height:1.7;
+    }
+
+    .ai-input{
+
+      display:flex;
+
+      gap:16px;
+
+      flex-wrap:wrap;
+    }
+
+    .ai-input input{
+
+      flex:1;
+
+      min-width:220px;
+
+      padding:18px;
+
+      border:none;
+
+      border-radius:20px;
+
+      background:
+      rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:white;
+
+      font-size:15px;
+
+      outline:none;
+    }
+
+    .ai-input button{
+
+      padding:18px 28px;
+
+      border:none;
+
+      border-radius:20px;
+
+      background:
+      linear-gradient(
+      135deg,
+      #06b6d4,
+      #8b5cf6,
+      #ec4899
+      );
+
+      color:white;
+
+      font-weight:800;
+
+      cursor:pointer;
+    }
+
+    .ai-response{
+
+      margin-top:25px;
+
+      padding:25px;
+
+      border-radius:24px;
+
+      background:
+      rgba(255,255,255,.04);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      line-height:1.9;
+
+      color:#dbeafe;
+
+      display:none;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:1100px){
+
+      .content-grid{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:900px){
+
+      .sidebar{
+        display:none;
+      }
+
+      .main{
+        margin-left:0;
+        padding:22px;
+      }
+
+      .welcome h1{
+        font-size:40px;
+      }
+
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .welcome h1{
+        font-size:34px;
+      }
+
+      .hero-panel h2{
+        font-size:30px;
+      }
+
+      .glass-box h2{
+        font-size:26px;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .continue-strip{
+        flex-direction:column;
+        gap:18px;
+        align-items:flex-start;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="noise"></div>
+
+  <div class="floating-light light1"></div>
+  <div class="floating-light light2"></div>
+  <div class="floating-light light3"></div>
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="logo">
+        ⚛️ <span>ScienceBridge</span>
+      </div>
+
+      <div class="menu">
+
+        <a href="#" class="active">
+          🏠 Dashboard
+        </a>
+
+        <a href="courses.html">
+          📚 Courses
+        </a>
+
+        
+        
+        <a href="progress.html">
+          📈 Progress
+        </a>
+
+        <a href="research.html">
+          🧠 Research
+        </a>
+        <a href="team.html">
+          🥶 Our Team
+        </a>
+       
+      </div>
+
+      <div class="sidebar-bottom">
+
+        <h3>
+          Quantum Mode ✨
+        </h3>
+
+        <p>
+          Your futuristic AI-powered student workspace is active.
+        </p>
+
+        <button
+        class="logout-btn"
+        onclick="logoutUser()">
+          Logout
+        </button>
+
+      </div>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <!-- TOPBAR -->
+
+      <div class="topbar">
+
+        <div class="welcome">
+
+          <h1>
+
+            Welcome back,
+            <span class="gradient">
+              Future Scientist 🚀
+            </span>
+
+          </h1>
+
+          <p>
+            Your AI-powered learning universe is evolving every day.
+          </p>
+
+        </div>
+
+        <div class="top-right">
+
+          <div class="glass-chip">
+
+            Logged in as:
+            <strong id="userEmail">
+              Loading...
+            </strong>
+
+          </div>
+
+          <div class="avatar">
+            S
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- HERO -->
+
+      <div class="hero-panel">
+
+        <h2>
+          Your Scientific Thinking Ecosystem
+        </h2>
+
+        <p>
+          Track progress, unlock achievements, ask AI tutors,
+          build futuristic coding projects, and evolve your reasoning abilities
+          through immersive AI learning systems.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button class="primary-btn">
+            Complete all courses and grab the Certificate!!!!
+          </button>
+
+          <button class="secondary-btn">
+            Explore AI Research
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- CONTINUE STRIP -->
+
+      <div class="continue-strip">
+
+        <div class="continue-left">
+
+          <span class="live-dot"></span>
+
+          Resume:
+          <strong>
+            AI & Computational Thinking
+          </strong>
+
+        </div>
+
+        <button onclick="openCoursesPage('python')">
+
+          Continue →
+
+        </button>
+
+      </div>
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <span>Total XP</span>
+
+          <h2 id="xpValue">
+            1250
+          </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+          <span>Daily Streak</span>
+
+          <h2>
+            27
+          </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+          <span>Lessons Completed</span>
+
+          <h2>
+            18
+          </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+          <span>Research Score</span>
+
+          <h2>
+            91%
+          </h2>
+
+        </div>
+
+      </div>
+
+      <!-- GRID -->
+
+      <div class="content-grid">
+
+        <!-- LEFT -->
+
+        <div class="glass-box">
+
+          <h2>
+            Continue Learning
+          </h2>
+
+          <div class="courses">
+
+            <!-- PYTHON -->
+
+            <div class="course-card"
+            onclick="openCoursesPage('python')">
+
+              <div class="course-glow"></div>
+
+              <div class="course-top-row">
+
+                <div class="course-icon">
+                  🐍
+                </div>
+
+                <div class="course-arrow">
+                  ↗
+                </div>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  Python Mastery
+                </h3>
+
+                <p>
+                  AI engineering, automation,
+                  machine learning, and backend systems.
+                </p>
+
+                <div class="preview-pill">
+
+                  AI • NLP • Research
+
+                </div>
+
+              </div>
+
+              <div class="course-footer">
+                <span>
+                  <span id="python-pct-text">0%</span> Complete
+                </span>
+                <div class="progress">
+                  <span id="python-progress-bar" style="width:0%"></span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- JS -->
+
+            <div class="course-card"
+            onclick="openCoursesPage('javascript')">
+
+              <div class="course-glow"></div>
+
+              <div class="course-top-row">
+
+                <div class="course-icon">
+                  ⚡
+                </div>
+
+                <div class="course-arrow">
+                  ↗
+                </div>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  AI & ML
+                </h3>
+
+                <p>
+                  Build futuristic AI platforms,
+                  web apps, and interactive systems.
+                </p>
+
+                <div class="preview-pill">
+
+                  APIs • Real-Time • UI
+
+                </div>
+
+              </div>
+
+              <div class="course-footer">
+
+                <span>
+                  Complete Fast
+                </span>
+
+                <div class="progress">
+                  <span style="width:100%"></span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- THINKING -->
+
+            <div class="course-card"
+            onclick="openCoursesPage('research')">
+
+              <div class="course-glow"></div>
+
+              <div class="course-top-row">
+
+                <div class="course-icon">
+                  🧠
+                </div>
+
+                <div class="course-arrow">
+                  ↗
+                </div>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  Capstone Project
+                </h3>
+
+                <p>
+                  Build a ML Model with project lead.
+                </p>
+
+                <div class="preview-pill">
+
+                  Logic • Evidence • Cognition
+
+                </div>
+
+              </div>
+
+              <div class="course-footer">
+
+                <span>
+                  Come On
+                </span>
+
+                <div class="progress">
+                  <span style="width:100%"></span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="mini-panel">
+
+          <div class="glass-box level-card">
+
+            <div class="level-circle">
+
+              <div class="level-inner">
+
+                <h1>
+                  07
+                </h1>
+
+                <span>
+                  LEVEL
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="glass-box">
+
+            <h2>
+              Missions
+            </h2>
+
+            <div class="task">
+
+              <strong>
+                Login
+              </strong>
+
+              <span>
+                +120 XP Reward
+              </span>
+
+            </div>
+
+            <div class="task">
+
+              <strong>
+                Start Web & Python Course
+              </strong>
+
+              <span>
+                +80 XP Reward
+              </span>
+
+            </div>
+
+            <div class="task">
+
+              <strong>
+                Finish Research Exercise
+              </strong>
+
+              <span>
+                Hurry Up
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      
+
+    </main>
+
+  </div>
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import { initializeApp }
+
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+
+      getAuth,
+      signOut,
+      onAuthStateChanged
+
+    }
+
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc
+
+    }
+
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyAsuFldOnhizmumw3BjwvNgIhqytNYF010",
+
+      authDomain: "science-bridge-initiative.firebaseapp.com",
+
+      projectId: "science-bridge-initiative",
+
+      storageBucket: "science-bridge-initiative.firebasestorage.app",
+
+      messagingSenderId: "1068436017350",
+
+      appId: "1:1068436017350:web:61921204b0e0c6efb787c7",
+
+      measurementId: "G-6JDHKD3SCJ"
+
+    };
+
+    const app =
+    initializeApp(firebaseConfig);
+
+    const auth =
+    getAuth(app);
+
+    const db =
+    getFirestore(app);
+
+    const userEmail =
+    document.getElementById("userEmail");
+
+    const xpValue =
+    document.getElementById("xpValue");
+
+    onAuthStateChanged(auth, async (user) => {
+
+      if(user){
+
+        userEmail.textContent =
+        user.email;
+
+        const userRef =
+        doc(db, "users", user.uid);
+
+        const userSnap =
+        await getDoc(userRef);
+
+        if(!userSnap.exists()){
+
+          await setDoc(userRef, {
+
+            email:user.email,
+
+            xp:1250,
+
+            streak:27,
+
+            lessonsCompleted:18,
+
+            researchScore:91,
+
+            createdAt:new Date()
+
+          });
+
+        }
+
+        const data =
+        (await getDoc(userRef)).data();
+
+        xpValue.textContent =
+        data.xp;
+
+      }
+
+      else{
+
+        window.location.href =
+        "login.html";
+
+      }
+
+    });
+
+    // PAGE TRANSITION
+
+    window.openCoursesPage = function(course){
+
+      document.body.style.opacity = "0";
+
+      document.body.style.transform = "scale(1.02)";
+
+      setTimeout(() => {
+
+        window.location.href =
+        "courses.html?course=" + course;
+
+      }, 400);
+
+    }
+
+   // LOGOUT
+    window.logoutUser = async function() {
+      await signOut(auth);
+      window.location.href = "index.html";
+    }
+
+  
+
+    // --- PROGRESS SYNC LOGIC ---
+    function syncPythonProgress() {
+      // 1. Get the progress value saved by web.html (defaults to 0 if not found)
+      const savedProgress = localStorage.getItem('python_research_progress') || 0;
+
+      // 2. Find the elements we labeled with IDs earlier
+      const textElement = document.getElementById('python-pct-text');
+      const barElement = document.getElementById('python-progress-bar');
+
+      if (textElement && barElement) {
+        // 3. Update the text (e.g., "45%")
+        textElement.innerText = savedProgress + "%";
+
+        // 4. Update the visual bar width
+        barElement.style.width = savedProgress + "%";
+
+        // 5. Visual Polish: If 100%, change the bar to a "Success" green gradient
+        if (savedProgress >= 100) {
+          barElement.style.background = "linear-gradient(to right, #34c759, #67e8f9)";
+        }
+      }
+    }
+
+    // Run the sync function as soon as the page finishes loading
+    window.addEventListener('load', syncPythonProgress);
+
+    // Listener: If the user has both tabs open, the dashboard updates 
+    // instantly when they progress in the other tab!
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'python_research_progress') {
+        syncPythonProgress();
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+
+      background:
+      radial-gradient(circle at top,#111827 0%,#020617 45%,#000814 100%);
+
+      min-height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      color:white;
+    }
+
+    .card{
+
+      width:420px;
+
+      background:rgba(255,255,255,.05);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      backdrop-filter:blur(20px);
+
+      border-radius:30px;
+
+      padding:40px;
+    }
+
+    h1{
+      font-size:42px;
+      margin-bottom:10px;
+    }
+
+    p{
+      color:#94a3b8;
+      margin-bottom:30px;
+    }
+
+    input{
+
+      width:100%;
+
+      padding:16px;
+
+      margin-bottom:20px;
+
+      border:none;
+
+      border-radius:14px;
+
+      background:rgba(255,255,255,.06);
+
+      color:white;
+
+      font-size:15px;
+
+      outline:none;
+    }
+
+    button{
+
+      width:100%;
+
+      padding:16px;
+
+      border:none;
+
+      border-radius:14px;
+
+      background:
+      linear-gradient(135deg,#06b6d4,#8b5cf6);
+
+      color:white;
+
+      font-size:16px;
+
+      font-weight:700;
+
+      cursor:pointer;
+    }
+
+    button:hover{
+      opacity:.9;
+    }
+
+    a{
+      color:#67e8f9;
+      text-decoration:none;
+    }
+
+    .bottom{
+      margin-top:20px;
+      text-align:center;
+      color:#94a3b8;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="card">
+
+    <h1>Create Account</h1>
+
+    <p>
+      Join ScienceBridge Initiative 🚀
+    </p>
+
+    <form id="signupForm">
+
+      <input
+      type="email"
+      id="signupEmail"
+      placeholder="Enter email"
+      required>
+
+      <input
+      type="password"
+      id="signupPassword"
+      placeholder="Enter password"
+      required>
+
+      <button type="submit">
+        Create Free Account
+      </button>
+
+    </form>
+
+    <div class="bottom">
+
+      Already have an account?
+
+      <a href="login.html">
+        Login
+      </a>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="auth.js"></script>
+
+</body>
+</html>

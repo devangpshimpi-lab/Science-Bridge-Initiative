@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+
+background:
+radial-gradient(circle at top,#111827 0%,#020617 45%,#000814 100%);
+
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+color:white;
+}
+
+.card{
+
+width:420px;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+border-radius:30px;
+
+padding:40px;
+}
+
+h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+p{
+color:#94a3b8;
+margin-bottom:30px;
+}
+
+input{
+
+width:100%;
+
+padding:16px;
+
+margin-bottom:20px;
+
+border:none;
+
+border-radius:14px;
+
+background:rgba(255,255,255,.06);
+
+color:white;
+
+font-size:15px;
+
+outline:none;
+}
+
+button{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:14px;
+
+background:
+linear-gradient(135deg,#06b6d4,#8b5cf6);
+
+color:white;
+
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+}
+
+.bottom{
+margin-top:20px;
+text-align:center;
+color:#94a3b8;
+}
+
+a{
+color:#67e8f9;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Welcome Back</h1>
+
+<p>
+Login to continue learning 🚀
+</p>
+
+<form id="loginForm">
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Enter email"
+required>
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Enter password"
+required>
+
+<button type="submit">
+Login
+</button>
+
+</form>
+
+<div class="bottom">
+
+Don't have an account?
+
+<a href="signup.html">
+Create Account
+</a>
+
+</div>
+
+</div>
+
+<script type="module" src="auth.js"></script>
+
+</body>
+</html>
