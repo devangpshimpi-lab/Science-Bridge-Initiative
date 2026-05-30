@@ -704,28 +704,31 @@
 
     .stat-card{
 
-      position:relative;
+  position:relative;
 
-      overflow:hidden;
+  overflow:hidden;
 
-      background:
-      linear-gradient(
-      180deg,
-      rgba(255,255,255,.07),
-      rgba(255,255,255,.03)
-      );
+  background:
+  linear-gradient(
+  180deg,
+  rgba(255,255,255,.07),
+  rgba(255,255,255,.03)
+  );
 
-      border:1px solid rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);
 
-      border-radius:30px;
+  border-radius:30px;
 
-      padding:32px;
+  padding:32px;
 
-      backdrop-filter:blur(24px);
+  backdrop-filter:blur(24px);
 
-      transition:.45s;
-    }
+  transition:.45s;
 
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
     .stat-card:hover{
 
       transform:translateY(-10px);
@@ -1010,20 +1013,26 @@
 
     .progress span{
 
-      display:block;
+    display:block;
 
-      height:100%;
+    width:0%;
 
-      border-radius:999px;
+    height:100%;
 
-      background:
-      linear-gradient(
-      to right,
+    border-radius:999px;
+
+    background:linear-gradient(
+      90deg,
       #06b6d4,
       #8b5cf6,
       #ec4899
-      );
-    }
+    );
+
+    box-shadow:
+      0 0 15px rgba(168,85,247,.8);
+
+    transition: width 0.5s ease;
+}
 
     /* SIDE PANEL */
 
@@ -1043,28 +1052,27 @@
 
     .level-circle{
 
-      width:180px;
-      height:180px;
+  width:180px;
+  height:180px;
 
-      border-radius:50%;
+  border-radius:50%;
 
-      margin:auto;
+  margin:auto;
 
-      display:flex;
+  display:flex;
 
-      align-items:center;
+  align-items:center;
 
-      justify-content:center;
+  justify-content:center;
 
-      background:
-      conic-gradient(
-      #06b6d4 0%,
-      #8b5cf6 70%,
-      rgba(255,255,255,.08) 70%
-      );
+  padding:14px;
 
-      padding:14px;
-    }
+  background:
+  conic-gradient(
+    #06b6d4 0deg,
+    rgba(255,255,255,.08) 0deg
+    );
+    } 
 
     .level-inner{
 
@@ -1291,7 +1299,14 @@
       }
 
     }
+    #levelValue,
+    #lessonsCompleted{
+  text-align:center;
+}
 
+.stat-card{
+  text-align:center;
+}
   </style>
 
 </head>
@@ -1327,7 +1342,7 @@
         
         
         <a href="progress.html">
-          📈 Progress
+          📈 Our Progress
         </a>
 
         <a href="research.html">
@@ -1335,6 +1350,9 @@
         </a>
         <a href="team.html">
           🥶 Our Team
+        </a>
+        <a href="Feedback.html">
+          📝 Feedback
         </a>
        
       </div>
@@ -1460,20 +1478,22 @@
 
         <div class="stat-card">
 
-          <span>Total XP</span>
+          <span>
+            XP
+          </span>
 
           <h2 id="xpValue">
-            1250
+            0 / 3000
           </h2>
 
         </div>
 
         <div class="stat-card">
 
-          <span>Daily Streak</span>
+          <span>🚀 Scientist Level</span>
 
-          <h2>
-            27
+           <h2 id="levelValue">
+            0
           </h2>
 
         </div>
@@ -1482,15 +1502,14 @@
 
           <span>Lessons Completed</span>
 
-          <h2>
-            18
+          <h2 id="lessonsCompleted">
+              5 / 31
           </h2>
-
         </div>
 
         <div class="stat-card">
 
-          <span>Research Score</span>
+          <span>Our Research Score</span>
 
           <h2>
             91%
@@ -1517,103 +1536,104 @@
             <!-- PYTHON -->
 
             <div class="course-card"
-            onclick="openCoursesPage('python')">
+     onclick="openCoursesPage('python')">
 
-              <div class="course-glow"></div>
+    <div class="course-glow"></div>
 
-              <div class="course-top-row">
+    <div class="course-top-row">
 
-                <div class="course-icon">
-                  🐍
-                </div>
+        <div class="course-icon">
+            🐍
+        </div>
 
-                <div class="course-arrow">
-                  ↗
-                </div>
+        <div class="course-arrow">
+            ↗
+        </div>
 
-              </div>
+    </div>
 
-              <div>
+    <div>
 
-                <h3>
-                  Python Mastery
-                </h3>
+        <h3>
+            Python Mastery
+        </h3>
 
-                <p>
-                  AI engineering, automation,
-                  machine learning, and backend systems.
-                </p>
+        <p>
+            AI engineering, automation,
+            machine learning, and backend systems.
+        </p>
 
-                <div class="preview-pill">
+        <div class="preview-pill">
+            AI • NLP • Research
+        </div>
 
-                  AI • NLP • Research
+    </div>
 
-                </div>
+    <div class="course-footer">
 
-              </div>
+        <span id="python-pct-text">
+            0%
+        </span>
 
-              <div class="course-footer">
-                <span>
-                  <span id="python-pct-text">0%</span> Complete
-                </span>
-                <div class="progress">
-                  <span id="python-progress-bar" style="width:0%"></span>
-                </div>
-              </div>
+        <div class="progress">
+            <span id="python-progress-bar"
+                  style="width:0%">
+            </span>
+        </div>
 
-            </div>
+    </div>
+
+</div>
 
             <!-- JS -->
 
             <div class="course-card"
-            onclick="openCoursesPage('javascript')">
+     onclick="openCoursesPage('javascript')">
 
-              <div class="course-glow"></div>
+    <div class="course-glow"></div>
 
-              <div class="course-top-row">
+    <div class="course-top-row">
 
-                <div class="course-icon">
-                  ⚡
-                </div>
+        <div class="course-icon">
+            ⚡
+        </div>
 
-                <div class="course-arrow">
-                  ↗
-                </div>
+        <div class="course-arrow">
+            ↗
+        </div>
 
-              </div>
+    </div>
 
-              <div>
+    <div>
 
-                <h3>
-                  AI & ML
-                </h3>
+        <h3>
+            AI & ML
+        </h3>
 
-                <p>
-                  Build futuristic AI platforms,
-                  web apps, and interactive systems.
-                </p>
+        <p>
+            Build futuristic AI platforms,
+            web apps, and interactive systems.
+        </p>
 
-                <div class="preview-pill">
+        <div class="preview-pill">
+            APIs • Real-Time • UI
+        </div>
 
-                  APIs • Real-Time • UI
+    </div>
 
-                </div>
+    <div class="course-footer">
 
-              </div>
+        <span id="aiml-pct-text">
+            0%
+        </span>
 
-              <div class="course-footer">
+        <div class="progress">
+            <span id="aiml-progress-bar" style="width:0%"></span>
+        </div>
 
-                <span>
-                  Complete Fast
-                </span>
+    </div>
 
-                <div class="progress">
-                  <span style="width:100%"></span>
-                </div>
-
-              </div>
-
-            </div>
+</div>
 
             <!-- THINKING -->
 
@@ -1652,17 +1672,19 @@
 
               </div>
 
-              <div class="course-footer">
+            <div class="course-footer">
 
-                <span>
-                  Come On
-                </span>
+              <span id="capstone-pct-text">
+              0%
+              </span>
 
-                <div class="progress">
-                  <span style="width:100%"></span>
-                </div>
+            <div class="progress">
+            <span id="capstone-progress-bar"
+              style="width:0%">
+            </span>
+            </div>
 
-              </div>
+</div>
 
             </div>
 
@@ -1680,17 +1702,17 @@
 
               <div class="level-inner">
 
-                <h1>
-                  07
+              <h1 id="completion-percent">
+                   0%
                 </h1>
 
                 <span>
-                  LEVEL
-                </span>
+                    COMPLETED
+                  </span>
 
               </div>
 
-            </div>
+              </div>
 
           </div>
 
@@ -1703,11 +1725,11 @@
             <div class="task">
 
               <strong>
-                Login
+                Complete Python Course
               </strong>
 
               <span>
-                +120 XP Reward
+                +100 XP Reward
               </span>
 
             </div>
@@ -1715,11 +1737,11 @@
             <div class="task">
 
               <strong>
-                Start Web & Python Course
+                Complete AI & ML Course
               </strong>
 
               <span>
-                +80 XP Reward
+                +100 XP Reward
               </span>
 
             </div>
@@ -1727,11 +1749,11 @@
             <div class="task">
 
               <strong>
-                Finish Research Exercise
+                Submit your application.
               </strong>
 
               <span>
-                Hurry Up
+                +100 XP Reward
               </span>
 
             </div>
@@ -1771,7 +1793,9 @@
       getFirestore,
       doc,
       getDoc,
-      setDoc
+      setDoc,
+      updateDoc
+
 
     }
 
@@ -1810,6 +1834,9 @@
     const xpValue =
     document.getElementById("xpValue");
 
+    const levelValue =
+    document.getElementById("levelValue");
+
     onAuthStateChanged(auth, async (user) => {
 
       if(user){
@@ -1827,27 +1854,44 @@
 
           await setDoc(userRef, {
 
-            email:user.email,
+    email:user.email,
 
-            xp:1250,
+    xp:0,
 
-            streak:27,
+    streak:1,
 
-            lessonsCompleted:18,
+    lastActiveDate:new Date()
+      .toISOString()
+      .split("T")[0],
 
-            researchScore:91,
+    lessonsCompleted:0,
 
-            createdAt:new Date()
+    researchScore:0,
 
-          });
+    createdAt:new Date()
+
+});
 
         }
 
-        const data =
-        (await getDoc(userRef)).data();
+let freshSnap =
+await getDoc(userRef);
 
-        xpValue.textContent =
-        data.xp;
+let data =
+freshSnap.data();
+const level =
+Math.floor((data.xp || 0) / 100) ;
+
+
+
+levelValue.innerText =
+level;
+console.log("USER DATA:", data);
+
+
+
+
+updateResearchCredits();
 
       }
 
@@ -1886,39 +1930,186 @@
   
 
     // --- PROGRESS SYNC LOGIC ---
-    function syncPythonProgress() {
-      // 1. Get the progress value saved by web.html (defaults to 0 if not found)
-      const savedProgress = localStorage.getItem('python_research_progress') || 0;
 
-      // 2. Find the elements we labeled with IDs earlier
-      const textElement = document.getElementById('python-pct-text');
-      const barElement = document.getElementById('python-progress-bar');
+function syncPythonProgress(){
 
-      if (textElement && barElement) {
-        // 3. Update the text (e.g., "45%")
-        textElement.innerText = savedProgress + "%";
+    const savedProgress =
+    localStorage.getItem("python_progress") || 0;
 
-        // 4. Update the visual bar width
-        barElement.style.width = savedProgress + "%";
+    const text =
+    document.getElementById("python-pct-text");
 
-        // 5. Visual Polish: If 100%, change the bar to a "Success" green gradient
-        if (savedProgress >= 100) {
-          barElement.style.background = "linear-gradient(to right, #34c759, #67e8f9)";
-        }
-      }
+    const bar =
+    document.getElementById("python-progress-bar");
+
+    if(text && bar){
+
+        text.innerText =
+        savedProgress + "%";
+
+        bar.style.width =
+        savedProgress + "%";
+    }
+}
+
+function syncAIMLProgress(){
+
+    const savedProgress =
+    localStorage.getItem("aiml_progress") || 0;
+
+    const text =
+    document.getElementById("aiml-pct-text");
+
+    const bar =
+    document.getElementById("aiml-progress-bar");
+
+    if(text && bar){
+
+        text.innerText =
+        savedProgress + "%";
+
+        bar.style.width =
+        savedProgress + "%";
+    }
+}
+function syncCapstoneProgress(){
+
+    const savedProgress =
+    localStorage.getItem("capstone_progress") || 0;
+
+    const text =
+    document.getElementById("capstone-pct-text");
+
+    const bar =
+    document.getElementById("capstone-progress-bar");
+
+    if(text && bar){
+
+        text.innerText =
+        savedProgress + "%";
+
+        bar.style.width =
+        savedProgress + "%";
+    }
+}
+
+window.addEventListener("load", () => {
+
+    syncPythonProgress();
+    syncAIMLProgress();
+    syncCapstoneProgress();
+
+    updateCompletionPercentage();
+    updateResearchCredits();
+    updateLessonsCompleted();
+    
+
+});
+function updateCompletionPercentage(){
+
+    let completed = 0;
+
+    const python =
+    Number(localStorage.getItem("python_progress") || 0);
+
+    const aiml =
+    Number(localStorage.getItem("aiml_progress") || 0);
+
+    const capstone =
+    Number(localStorage.getItem("capstone_progress") || 0);
+
+    if(python === 100){
+        completed++;
     }
 
-    // Run the sync function as soon as the page finishes loading
-    window.addEventListener('load', syncPythonProgress);
+    if(aiml === 100){
+        completed++;
+    }
 
-    // Listener: If the user has both tabs open, the dashboard updates 
-    // instantly when they progress in the other tab!
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'python_research_progress') {
-        syncPythonProgress();
-      }
-    });
+    if(capstone === 100){
+        completed++;
+    }
 
+    const percentage =
+    Math.round((completed / 3) * 100);
+
+    document.getElementById(
+        "completion-percent"
+    ).innerText = percentage + "%";
+    const circle =
+document.querySelector(".level-circle");
+
+const degrees =
+(percentage / 100) * 360;
+
+circle.style.background =
+`conic-gradient(
+    #06b6d4 0deg,
+    #8b5cf6 ${degrees}deg,
+    rgba(255,255,255,.08) ${degrees}deg
+)`;
+}
+function updateResearchCredits(){
+
+    let credits = 0;
+
+    const python =
+    Number(localStorage.getItem("python_progress") || 0);
+
+    const aiml =
+    Number(localStorage.getItem("aiml_progress") || 0);
+
+    const capstone =
+    Number(localStorage.getItem("capstone_progress") || 0);
+
+    if(python === 100){
+        credits += 100;
+    }
+
+    if(aiml === 100){
+        credits += 100;
+    }
+
+    if(capstone === 100){
+        credits += 100;
+    }
+    const user = auth.currentUser;
+
+if(user){
+
+    const userRef =
+    doc(db, "users", user.uid);
+
+    setDoc(userRef, {
+        xp: credits
+    }, { merge:true });
+
+}
+
+    document.getElementById("xpValue")
+    .innerText =
+    credits + " / 300";
+}
+function updateLessonsCompleted(){
+
+    const pythonCount =
+    JSON.parse(
+        localStorage.getItem("python_videos") || "[]"
+    ).length;
+
+    const aimlCount =
+    JSON.parse(
+        localStorage.getItem("aiml_videos") || "[]"
+    ).length;
+
+    const totalLessons =
+    pythonCount + aimlCount;
+
+    document.getElementById(
+        "lessonsCompleted"
+    ).innerText =
+    totalLessons + " / 31";
+}
   </script>
 
 </body>
