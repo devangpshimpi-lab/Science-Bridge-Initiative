@@ -238,6 +238,19 @@
             const step = content[cur];
             
             if(step.type === 'v') {
+                let watchedAIML =
+JSON.parse(
+localStorage.getItem("aiml_videos")
+) || [];
+
+if(!watchedAIML.includes(cur)){
+    watchedAIML.push(cur);
+
+    localStorage.setItem(
+        "aiml_videos",
+        JSON.stringify(watchedAIML)
+    );
+}
                 document.getElementById('learning-stage').style.display = 'block';
                 document.getElementById('quiz-stage').style.display = 'none';
                 document.getElementById('player').src = `https://www.youtube.com/embed/${step.url}?autoplay=0&rel=0`;
@@ -311,6 +324,11 @@
         }
 
         function showFinalCelebration() {
+            localStorage.setItem(
+    "aiml_progress",
+    "100"
+);
+            localStorage.setItem("aiml_progress", "100");
             document.getElementById('celeb-icon').innerText = "🌌";
             document.getElementById('celeb-title').innerText = "AI Master Protocol";
             document.getElementById('celeb-desc').innerText = "Supreme achievement! You have mastered the Artificial Intelligence and Machine Learning curriculum.";
@@ -343,8 +361,27 @@
         }
 
         function next() {
-            if(cur < content.length - 1) { cur++; render(); }
-        }
+
+    if(cur < content.length - 1){
+
+        cur++;
+
+        // Save Progress
+        const progress =
+        Math.round(
+            (cur / (content.length - 1)) * 100
+        );
+
+        localStorage.setItem(
+            "aiml_progress",
+            progress
+        );
+
+        render();
+
+    }
+
+}
 
         render();
     </script>
