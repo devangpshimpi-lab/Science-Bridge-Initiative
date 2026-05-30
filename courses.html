@@ -993,7 +993,7 @@
 
           <span>Research-Oriented Learning Paths</span>
 
-          <h2>05</h2>
+          <h2>03</h2>
 
         </div>
 
@@ -1009,7 +1009,7 @@
 
           <span>Cognitive Skill Domains</span>
 
-          <h2>19</h2>
+          <h2>23</h2>
 
         </div>
 
@@ -1148,14 +1148,18 @@
 
           <div class="progress-label">
 
-            <span>EASY ONE</span>
+              <span>Progress</span>
 
-            <span>Good</span>
+              <span id="python-course-pct">
+                  0%
+              </span>
 
-          </div>
+              </div>
 
-          <div class="progress">
-            <span style="width:90%"></span>
+                <div class="progress">
+            <span id="python-course-bar"
+                   style="width:0%">
+                    </span>
           </div>
 
         </div>
@@ -1167,10 +1171,7 @@
             Enter Research Path
           </button>
 
-          <button class="secondary"
-            onclick="viewSyllabus('python')">
-            Syllabus
-          </button>
+         
 
         </div>
 
@@ -1269,22 +1270,29 @@
             <span>→</span>
             How computers interpret images
           </div>
-
+          <div class="bullet">
+            <span>→</span>
+            Improve Concepts
+          </div>
         </div>
 
         <div class="progress-wrap">
 
           <div class="progress-label">
 
-            <span>LOVELY</span>
+    <span>Progress</span>
 
-            <span>Better</span>
+    <span id="aiml-course-pct">
+        0%
+    </span>
 
-          </div>
+</div>
 
-          <div class="progress">
-            <span style="width:95%"></span>
-          </div>
+<div class="progress">
+    <span id="aiml-course-bar"
+          style="width:0%">
+    </span>
+</div>
 
         </div>
 
@@ -1295,10 +1303,7 @@
             Enter Research Path
           </button>
 
-          <button class="secondary"
-            onclick="viewSyllabus('javascript')">
-            Syllabus
-          </button>
+          
 
         </div>
 
@@ -1335,7 +1340,7 @@
         <div class="tag">NLP</div>
         <div class="tag">Machine Learning</div>
         <div class="tag">Data Analysis</div>
-        <div class="tag">AI Reasoning Systems</div>
+       
 
         <div class="sub-section">
 
@@ -1393,11 +1398,12 @@
             <span>→</span>
             Reasoning intelligence database
           </div>
-
           <div class="bullet">
             <span>→</span>
             AI dataset management system
           </div>
+
+          
 
         </div>
 
@@ -1405,15 +1411,19 @@
 
           <div class="progress-label">
 
-            <span>PERFECT!!</span>
+    <span>Progress</span>
 
-            <span>Best%</span>
+    <span id="capstone-course-pct">
+        0%
+    </span>
 
-          </div>
+</div>
 
-          <div class="progress">
-            <span style="width:100%"></span>
-          </div>
+<div class="progress">
+    <span id="capstone-course-bar"
+          style="width:0%">
+    </span>
+</div>
 
         </div>
 
@@ -1424,10 +1434,7 @@
             Enter Research Path
           </button>
 
-          <button class="secondary"
-            onclick="viewSyllabus('sql')">
-            Syllabus
-          </button>
+          
 
         </div>
 
@@ -1562,22 +1569,69 @@
       alert(syllabus[course]);
 
     }
-    function updateProgressUI() {
-    const webStatus = document.getElementById('web-status');
-    const webBar = document.getElementById('web-bar');
+    function updateProgressUI(){
 
-    // Check if the user finished the course in web.html
-    const isWebComplete = localStorage.getItem('web_completed') === 'true';
+    const python =
+    localStorage.getItem("python_progress") || 0;
 
-    if (isWebComplete) {
-        webStatus.innerText = "100%";
-        webBar.style.width = "100%";
-        webStatus.style.color = "#67e8f9"; // Optional: Cyan glow for completion
-    } else {
-        webStatus.innerText = "Pending";
-        webBar.style.width = "0%";
+    const aiml =
+    localStorage.getItem("aiml_progress") || 0;
+
+    const pythonText =
+    document.getElementById("python-course-pct");
+
+    const pythonBar =
+    document.getElementById("python-course-bar");
+
+    const aimlText =
+    document.getElementById("aiml-course-pct");
+
+    const aimlBar =
+    document.getElementById("aiml-course-bar");
+
+    const capstone =
+    localStorage.getItem("capstone_progress") || 0;
+
+    const capstoneText =
+    document.getElementById("capstone-course-pct");
+
+    const capstoneBar =
+    document.getElementById("capstone-course-bar");
+
+    if(pythonText && pythonBar){
+
+        pythonText.innerText =
+        python + "%";
+
+        pythonBar.style.width =
+        python + "%";
     }
+
+    if(aimlText && aimlBar){
+
+        aimlText.innerText =
+        aiml + "%";
+
+        aimlBar.style.width =
+        aiml + "%";
+    }
+
+    if(capstoneText && capstoneBar){
+
+    capstoneText.innerText =
+    capstone + "%";
+
+    capstoneBar.style.width =
+    capstone + "%";
 }
+    
+}
+
+window.addEventListener(
+    "DOMContentLoaded",
+    updateProgressUI
+);
+
 
 // Run this immediately when the page loads
 window.addEventListener('DOMContentLoaded', updateProgressUI);
